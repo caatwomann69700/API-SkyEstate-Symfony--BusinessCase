@@ -42,7 +42,7 @@ class Annonce
     #[ORM\Column(length: 255, nullable: false)]
     #[Groups(['annonces:read', 'annonces:write'])]
     private ?string $location = null;
-    
+
     #[ORM\Column(length: 255)]
     #[Groups(['annonces:read', 'annonces:write'])]
     private ?string $city = null;
@@ -82,10 +82,15 @@ class Annonce
     #[Groups(['annonces:read', 'annonces:write'])]
     private Collection $amenities;
 
+    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: ImageList::class, cascade: ['persist', 'remove'])]
+    #[Groups(['annonces:read', 'annonces:write'])]
+    private Collection $imagesList;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->amenities = new ArrayCollection();
+        $this->imagesList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +152,7 @@ class Annonce
         $this->location = $location;
         return $this;
     }
+
     public function getCity(): ?string
     {
         return $this->city;
@@ -267,6 +273,32 @@ class Annonce
     public function removeAmenity(Amenity $amenity): self
     {
         $this->amenities->removeElement($amenity);
+
+        return $this;
+    }
+
+    public function getImagesList(): Collection
+    {
+        return $this->imagesList;
+    }
+
+    public function addImageList(ImageList $imageList): self
+    {
+        if (!$this->imagesList->contains($imageList)) {
+            $this->imagesList[] = $imageList;
+            $imageList->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImageList(ImageList $imageList): self
+    {
+        if ($this->imagesList->removeElement($imageList)) {
+            if ($imageList->getAnnonce() === $this) {
+                $imageList->setAnnonce(null);
+            }
+        }
 
         return $this;
     }
