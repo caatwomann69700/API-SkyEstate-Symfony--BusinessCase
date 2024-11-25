@@ -1,7 +1,13 @@
 api_platform:
     title: Hello API Platform
     version: 1.0.0
+    
     defaults:
         stateless: true
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
+    collection:
+        pagination:
+            enabled: false
+            # j'ai desactiver la pagination pour faire apparaitre toute mes annonces sur la meme page coté front 
+            
