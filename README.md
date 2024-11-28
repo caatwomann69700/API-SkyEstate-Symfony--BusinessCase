@@ -215,3 +215,5 @@ Getters et Setters :
 
 Permettent d'accéder aux propriétés de l'entité (id, startDate, status, etc.) ou de les modifier.
 Le code est bien structuré pour gérer les réservations et leurs relations avec les annonces, en respectant les conventions Symfony et Doctrine.
+
+
