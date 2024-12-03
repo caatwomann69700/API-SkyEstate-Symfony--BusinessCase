@@ -98,11 +98,11 @@ class Annonce
     private Collection $reservations;
 
     // Équipements (amenities) associés à l'annonce (relation ManyToMany avec Amenity)
-    #[ORM\ManyToMany(targetEntity: Amenity::class, inversedBy: 'annonces')] // Relation ManyToMany
-    #[ORM\JoinTable(name: 'annonce_amenity')] 
-    #[Groups(['annonces:read', 'annonces:write'])] 
+    #[ORM\ManyToMany(targetEntity: Amenity::class, inversedBy: 'annonces')]
+    #[ORM\JoinTable(name: 'annonce_amenity')]
+    #[Groups(['annonces:read', 'annonces:write', 'amenity:read'])] // Ajout de amenity:read
     private Collection $amenities;
-
+    
     // Liste d'images supplémentaires pour l'annonce (relation OneToMany avec ImageList) pour la page detailé d'une annonce
     #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: ImageList::class, cascade: ['persist', 'remove'])] 
     #[Groups(['annonces:read', 'annonces:write'])] 
