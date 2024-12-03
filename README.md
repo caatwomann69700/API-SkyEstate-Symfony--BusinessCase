@@ -75,7 +75,13 @@ php bin/console make: User
  - Pourquoi make: User et pas make:entity User ? 
 
 dans Symfony est utilisée pour créer une entité User spécialement adaptée pour gérer les utilisateurs dans un contexte d'authentification et de sécurité.
+make:user s'assure que l'entité User implémente correctement l'interface UserInterface
 Voici pourquoi il est préférable d'utiliser make:user plutôt que make:entity User.
+La commande make:user génère automatiquement une entité préconfigurée avec les propriétés et méthodes nécessaires pour l'authentification dans Symfony, comme :
+* La propriété email comme identifiant principal.
+* La méthode getRoles() pour gérer les rôles (ROLE_USER, ROLE_ADMIN, etc.).
+* La méthode getPassword() pour l'utilisation avec les encodeurs de mots de passe.
+* La méthode eraseCredentials() pour des raisons de sécurité.
 
 ## La Création des tables : 
 + Annoncement 
