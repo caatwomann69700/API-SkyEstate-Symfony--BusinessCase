@@ -72,7 +72,7 @@ Pour commencer j'ai creer le " User " avec l'identifiant principal email  :
 ```
 php bin/console make: User
 ```
- - Pourquoi make: User et pas make:entity User ? 
+ - Pourquoi <b>"make:User"</b> et pas <b>"make:entity User"</b> ? 
 
 dans Symfony est utilisée pour créer une entité User spécialement adaptée pour gérer les utilisateurs dans un contexte d'authentification et de sécurité.
 make:user s'assure que l'entité User implémente correctement l'interface UserInterface
@@ -82,6 +82,22 @@ La commande make:user génère automatiquement une entité préconfigurée avec 
 * La méthode getRoles() pour gérer les rôles (ROLE_USER, ROLE_ADMIN, etc.).
 * La méthode getPassword() pour l'utilisation avec les encodeurs de mots de passe.
 * La méthode eraseCredentials() pour des raisons de sécurité.
+
+<b> Important !</b>
+
+Pour la proprieté Email j'ai mis une longueur de 320 en (Varchar) car Cette taille est conforme aux spécifications des adresses e-mail (RFC 5321 et RFC 5322)
+
+<b>Une adresse e-mail est composée des éléments suivants :</b>
+
+* <b>La partie locale (avant le @) :</b> Maximum de 64 caractères.
+
+* <b>Le caractère @ :</b> Prend 1 caractère.
+
+* <b>Le domaine (après le @) :</b> Maximum de 255 caractères, selon la même spécification.
+
+<b>
+Ce qui fait un total de 320 caractères
+</b>
 
 ## La Création des tables : 
 + Annoncement 
@@ -94,30 +110,31 @@ La commande make:user génère automatiquement une entité préconfigurée avec 
 + Reservation 
 + Amenity 
 
- pour chaque table : 
+ La commande pour la creation de chaque table : 
 ```
 php bin/console make:entity 
 ```
 ## L'Explication des tables et de leurs relations : 
 
-- Annonce : Gestion des Annonces
+- <b> Annonce </b>: Gestion des Annonces
 L'entité Annonce représente les annonces de coliving avec des propriétés comme le titre, la description, le prix, la surface, et la localisation etc.... Elle gère plusieurs relations avec les tables suivantes : image(pour les cards), category(categorie), amenity(équipement), reservation, et imagelist(pour les pages details d'une annonce).
 
-- Amenity : Gestion des Équipements
+- <b> Amenity </b>: Gestion des Équipements
 L'entité Amenity définit les équipements associés aux annonces (ex. Wi-Fi, piscine). Elle gère une relation ManyToMany avec Annonce, permettant de relier plusieurs équipements à plusieurs annonces.
 
-- Category : Organisation des Catégories
+- <b> Category</b> : Organisation des Catégories
 L'entité Category organise les types de logements ou d'annonces, avec une relation OneToMany vers les annonces et une relation OneToOne pour une image principale.
 
-- Image : Image Principale
+- <b> Image </b> : Image Principale
 L'entité Image gère les images principales des annonces ou catégories via des relations OneToOne. Elle contient des propriétés comme le nom et le chemin de l'image.
 
-- ImageList : Liste d'Images
+- <b> ImageList </b> : Liste d'Images
 L'entité ImageList permet d'ajouter plusieurs images à une seule annonce via une relation ManyToOne. Elle est utilisée pour enrichir visuellement les annonces.
 
-- Reservation : Gestion des Réservations
+- <b> Reservation </b>: Gestion des Réservations
 L'entité Reservation stocke les informations liées aux réservations, comme les dates de début et de fin, le statut et le montant total. Elle a une relation ManyToOne avec les annonces.
 
+![alt text](MpDColivio.PNG)
 ## La généreration des tables dans notre base de données  
 ```
 php bin/console make:migration 
