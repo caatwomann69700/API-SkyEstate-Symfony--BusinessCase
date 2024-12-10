@@ -1,18 +1,25 @@
 <?php
+
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
 use App\Repository\AmenityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: AmenityRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['amenity:read']], // Lecture pour l'API
-    denormalizationContext: ['groups' => ['amenity:write']] // Écriture pour l'API
+    normalizationContext: ['groups' => ['amenity:read']],
+    denormalizationContext: ['groups' => ['amenity:write']],
+    paginationEnabled: true,
+    paginationItemsPerPage: 10
 )]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'description' => 'partial'])]
 class Amenity
 {
     #[ORM\Id]
@@ -23,10 +30,19 @@ class Amenity
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['amenity:read', 'amenity:write', 'annonce:read'])]
+    #[Assert\NotBlank(message: 'The name cannot be blank.')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'The name cannot exceed 255 characters.'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[Groups(['amenity:read', 'amenity:write', 'annonce:read'])]
+    #[Assert\Length(
+        max: 65535,
+        maxMessage: 'The description cannot exceed 65535 characters.'
+    )]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'amenities')]

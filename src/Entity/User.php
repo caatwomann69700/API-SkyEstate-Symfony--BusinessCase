@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -89,6 +88,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['admin:read', 'admin:write'])]
     private ?\DateTimeInterface $updatedAt = null;
 
+    #[ORM\Column(type: 'integer')]
+    private int $failedAttempts = 0;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $lockUntil = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -96,7 +101,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = ['ROLE_USER'];
     }
 
-    // Getters et Setters
     public function getId(): ?int
     {
         return $this->id;
@@ -228,10 +232,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getFailedAttempts(): int
+    {
+        return $this->failedAttempts;
+    }
+
+    public function setFailedAttempts(int $failedAttempts): self
+    {
+        $this->failedAttempts = $failedAttempts;
+        return $this;
+    }
+
+    public function getLockUntil(): ?\DateTimeInterface
+    {
+        return $this->lockUntil;
+    }
+
+    public function setLockUntil(?\DateTimeInterface $lockUntil): self
+    {
+        $this->lockUntil = $lockUntil;
+        return $this;
+    }
+
     public function eraseCredentials(): void
     {
-        // Si des données sensibles sont stockées, elles doivent être effacées ici
-        // Exemple : $this->plainPassword = null;
+        // Si des données sensibles sont stockées temporairement, elles doivent être effacées ici
     }
 
     public function getUserIdentifier(): string

@@ -1,13 +1,16 @@
 api_platform:
     title: Hello API Platform
     version: 1.0.0
-    
     defaults:
         stateless: true
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
+        serialization_context:
+            enable_max_depth: true
     collection:
         pagination:
-            enabled: false
-            # j'ai desactiver la pagination pour faire apparaitre toute mes annonces sur la meme page coté front 
-            
+            enabled: false # Désactiver la pagination pour afficher toutes les annonces côté front
+    eager_loading:
+        max_joins: 5000 # Augmentez la limite
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
