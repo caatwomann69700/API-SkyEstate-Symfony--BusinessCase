@@ -11,11 +11,15 @@ use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
+    
     public function load(ObjectManager $manager): void
     {
+
+        
         // Base URL pour les images locales
         $baseUrl = 'http://localhost:8000/images/';
 
+        
         // Création des catégories avec leurs images et descriptions
         $categoriesData = [
             'maison' => [
@@ -57,39 +61,55 @@ class AppFixtures extends Fixture
             $categories[$key] = $category;
         }
 
-        // Création des amenities globales
-        $amenitiesData = [
-            'Vue sur le jardin',
-            'Cuisine',
-            'Wifi',
-            'Parking gratuit sur place',
-            'Télévision',
-            'Station de recharge pour véhicules électriques',
-            'Lave-linge (Gratuit) dans le bâtiment',
-            'Sèche-linge (Gratuit) dans le bâtiment',
-            'Privé : patio ou balcon',
-            'Climatisation',
-            'Chauffage',
-            'Bureau',
-            'Cheminée',
-            'Piscine',
-            'Jacuzzi',
-            'Salle de sport',
-            'Lit bébé',
-            'Barbecue',
-            'Espace de travail dédié',
-            'Alarme incendie'
-        ];
+   // Base URL pour les icônes des amenities
+  
+   $iconBaseUrl = 'http://localhost:8000/icons/';
+   // Création des amenities globales avec leurs icônes
+   $amenitiesData = [
+       ['name' => 'Vue sur le jardin', 'icon' => 'garden.png'],
+       ['name' => 'Cuisine', 'icon' => 'kitchen.png'],
+       ['name' => 'Wifi', 'icon' => 'wifi.png'],
+       ['name' => 'Parking gratuit sur place', 'icon' => 'parking.png'],
+       ['name' => 'Télévision', 'icon' => 'tv.png'],
+       ['name' => 'Station de recharge pour véhicules électriques', 'icon' => 'chargingstation.png'],
+       ['name' => 'Lave-linge (Gratuit) dans le bâtiment', 'icon' => 'lavelinge.png'],
+       ['name' => 'Sèche-linge (Gratuit) dans le bâtiment', 'icon' => 'drycleaning.png'],
+       ['name' => 'Privé : patio ou balcon', 'icon' => 'patio.png'],
+       ['name' => 'Climatisation', 'icon' => 'airconditionner.png'],
+       ['name' => 'Chauffage', 'icon' => 'heating.png'],
+       ['name' => 'Bureau', 'icon' => 'desk.png'],
+       ['name' => 'Cheminée', 'icon' => 'fireplace.png'],
+       ['name' => 'Piscine', 'icon' => 'pool.png'],
+       ['name' => 'Jacuzzi', 'icon' => 'jaccuzi.png'],
+       ['name' => 'Salle de sport', 'icon' => 'gym.png'],
+       ['name' => 'Lit bébé', 'icon' => 'baby-bed.png'],
+       ['name' => 'Barbecue', 'icon' => 'barbecue.png'],
+       ['name' => 'Espace de travail dédié', 'icon' => 'workspace.png'],
+       ['name' => 'Alarme incendie', 'icon' => 'firealarm.png'],
+   ];
 
-        $amenities = [];
-        foreach ($amenitiesData as $name) {
-            $amenity = new Amenity();
-            $amenity->setName($name)
-                    ->setDescription("Description de l'amenity $name");
+   $amenities = [];
+   foreach ($amenitiesData as $data) {
+       // Génération du chemin complet de l'icône
+       $iconUrl = $iconBaseUrl . $data['icon'];
 
-            $manager->persist($amenity);
-            $amenities[$name] = $amenity; // Associer par nom pour des relations fixes
-        }
+       // Création de l'entité Image
+       $icon = new Image();
+       $icon->setName($iconUrl); // Définir l'URL HTTP complète de l'image
+       $manager->persist($icon);
+
+       // Création de l'entité Amenity
+       $amenity = new Amenity();
+       $amenity->setName($data['name'])
+               ->setIcon($icon); // Associer l'image à l'amenity
+
+       $manager->persist($amenity);
+
+       // Sauvegarde dans le tableau pour des relations fixes si nécessaire
+       $amenities[$data['name']] = $amenity;
+   }
+
+ 
 
         // Données d'exemple pour les annonces et leurs images
         $annoncesData = [
@@ -102,7 +122,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '34000',
                 'location' => '12 avenue du Jeu de Paume',
                 'maxOccupants' => '1',
-                'image' => $baseUrl . 'imageparis(1).jpg',
+                'image' => $baseUrl . 'Studiocosy.jpg',
                 'category' => 'studio',
                 'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Télévision', 'Espace de travail dédié', 'Alarme incendie']
             ],
@@ -115,7 +135,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '31000',
                 'location' => '18 boulevard Carnot',
                 'maxOccupants' => '2',
-                'image' => $baseUrl . 'appart1.jpg',
+                'image' => $baseUrl . 'appartementprochedestransports.jpg',
                 'category' => 'appartement',
                 'amenities' => ['Wifi', 'Cuisine', 'Parking gratuit sur place', 'Climatisation', 'Chauffage', 'Télévision']
             ],
@@ -128,7 +148,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '67000',
                 'location' => '22 rue du Maire Kuss',
                 'maxOccupants' => '1',
-                'image' => $baseUrl . 'studio1.jpg',
+                'image' => $baseUrl . 'Petitstudio.jpg',
                 'category' => 'studio',
                 'amenities' => ['Cuisine', 'Chauffage', 'Télévision', 'Alarme incendie', 'Privé : patio ou balcon', 'Wifi']
             ],
@@ -154,7 +174,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '37000',
                 'location' => '22 Rue Nationale',
                 'maxOccupants' => '5',
-                'image' => $baseUrl . 'maison1.jpg',
+                'image' => $baseUrl . 'MaisondecharmeàTours.jpg',
                 'category' => 'maison',
                 'amenities' => [
                     'Vue sur le jardin',
@@ -187,7 +207,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '75001',
                     'location' => '12 rue de Rivoli',
                     'maxOccupants' => '4',
-                    'image' => $baseUrl . 'imageslyn.jpg',
+                    'image' => $baseUrl . 'Superbeappartementaucentre-ville.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Wifi',
@@ -447,7 +467,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '33000',
                     'location' => '15 route des Vignes',
                     'maxOccupants' => '6',
-                    'image' => $baseUrl . '123.jpg',
+                    'image' => $baseUrl . '12355.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -487,7 +507,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '13006',
                     'location' => '10 avenue du Prado',
                     'maxOccupants' => '5',
-                    'image' => $baseUrl . 'imageparis (1).jpg',
+                    'image' => $baseUrl . 'imagedidi.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Cuisine',
@@ -832,7 +852,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '33000',
                         'location' => '15 Rue Sainte-Catherine',
                         'maxOccupants' => '2',
-                        'image' => $baseUrl . 'appartement-bordeaux.jpg',
+                        'image' => $baseUrl . 'appartement-bordeau.jpg',
                         'category' => 'appartement',
                         'amenities' => [
                             'Wifi',
@@ -1391,57 +1411,50 @@ class AppFixtures extends Fixture
             // Ajoutez d'autres annonces ici avec leurs amenities
 
         // Création des annonces avec les images, catégories et amenities
-        foreach ($annoncesData as $data) {
+        foreach ($annoncesData as $index => $data) {
             $annonce = new Annonce();
             $annonce->setTitle($data['title'])
                     ->setDescription($data['description'])
                     ->setPrice($data['price'])
                     ->setSurface($data['surface'])
-                    ->setcity($data['city'])
+                    ->setCity($data['city'])
                     ->setLocation($data['location'])
                     ->setPostalCode($data['postalcode'])
                     ->setMaxOccupants($data['maxOccupants'])
                     ->setCreatedAt(new \DateTimeImmutable())
                     ->setUpdatedAt(new \DateTimeImmutable());
-
-            // Créer une image pour l'annonce
+        
+            // Créer une image principale pour l'annonce
             $image = new Image();
             $image->setName($data['image']);
-            $annonce->setImage($image); // Associe l'image à l'annonce
-
-            // Associer la catégorie à l'annonce
+            $annonce->setImage($image);
+        
+            // Associer la catégorie
             $annonce->setCategory($categories[$data['category']]);
+        
+              // Ajouter 6 images uniques à `ImageList`
+            for ($i = 1; $i <= 6; $i++) {
+             $imageList = new \App\Entity\ImageList();
+             // Générer un chemin unique pour chaque image
+            $uniqueImageName = "http://localhost:8000/images/image_{$index}_{$i}.jpg";
+            $imageList->setName($uniqueImageName);
+            $imageList->setAnnonce($annonce);
 
-             // Ajouter 6 images supplémentaires à ImageList
-             for ($i = 1; $i <= 6; $i++) {
-                $imageList = new \App\Entity\ImageList();
+            $manager->persist($imageList);
+        }
         
-                // Générer un chemin d'image unique en fonction de l'ID de l'annonce et du numéro d'image
-                $imageList->setName("http://localhost:8000/images/{$annonce->getId()}/image{$i}.jpg");
-        
-                // Associer cette image à l'annonce
-                $imageList->setAnnonce($annonce);
-        
-                $manager->persist($imageList); // Persister l'image supplémentaire
-            }
-            
-            
-                // Associer cette image à l'annonce
-                $imageList->setAnnonce($annonce);
-            
-                $manager->persist($imageList); // Persister l'image supplémentaire
-            // Associer les amenities définies dans $data['amenities']
+            // Associer les amenities
             foreach ($data['amenities'] as $amenityName) {
                 $annonce->addAmenity($amenities[$amenityName]);
             }
-
-            // Persister l'image et l'annonce
+        
+            // Persister l'image principale et l'annonce
             $manager->persist($image);
             $manager->persist($annonce);
         }
-
-        // Enregistrement en base de données
+        
+        // Enregistrer en base de données
         $manager->flush();
-    }
-}
- 
+    
+    }}
+    

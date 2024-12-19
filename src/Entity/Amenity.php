@@ -19,7 +19,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     paginationEnabled: true,
     paginationItemsPerPage: 10
 )]
-#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'description' => 'partial'])]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
 class Amenity
 {
     #[ORM\Id]
@@ -37,16 +37,13 @@ class Amenity
     )]
     private ?string $name = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups(['amenity:read', 'amenity:write', 'annonce:read'])]
-    #[Assert\Length(
-        max: 65535,
-        maxMessage: 'The description cannot exceed 65535 characters.'
-    )]
-    private ?string $description = null;
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)] // Une image est obligatoire pour chaque amenity
+    #[Groups(['amenity:read', 'amenity:write'])]
+    private ?Image $icon = null;
 
-    #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'amenities')]
-    #[Groups(['amenity:read'])]
+    #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'amenities', fetch: 'LAZY')]
+    #[Groups(['amenity:relation_read'])]
     private Collection $annonces;
 
     public function __construct()
@@ -70,14 +67,14 @@ class Amenity
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getIcon(): ?Image
     {
-        return $this->description;
+        return $this->icon;
     }
 
-    public function setDescription(?string $description): self
+    public function setIcon(Image $icon): self
     {
-        $this->description = $description;
+        $this->icon = $icon;
         return $this;
     }
 
