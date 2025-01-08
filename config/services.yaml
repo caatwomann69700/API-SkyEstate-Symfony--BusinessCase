@@ -6,6 +6,20 @@
 parameters:
 
 services:
+    App\Controller\Api\UserRegisterController:
+        public: true
+        autowire: true
+    Symfony\Component\Validator\Validator\ValidatorInterface:
+        alias: 'debug.validator'
+        public: true
+
+    Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface:
+        alias: 'security.user_password_hasher'
+        public: true
+
+    Doctrine\ORM\EntityManagerInterface:
+        alias: 'doctrine.orm.entity_manager'
+        public: true
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
