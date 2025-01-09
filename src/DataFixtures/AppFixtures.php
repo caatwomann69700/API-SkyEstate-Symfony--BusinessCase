@@ -24,20 +24,21 @@ class AppFixtures extends Fixture
         $categoriesData = [
             'maison' => [
                 'name' => 'Maison',
-                'image' => $baseUrl . 'category1.jpg',
-                'description' => 'Si vous avez besoin de plus d’espace, réservez un logement entier rien que pour vous'
+                'image' => $baseUrl . 'category2.png',
+                'description' => 'Découvrez le confort des maisons spacieuses, idéales pour accueillir votre famille ou profiter de moments paisibles. Avec des jardins privés et des pièces lumineuses, chaque maison est un foyer unique.'
             ],
             'appartement' => [
                 'name' => 'Appartement',
-                'image' => $baseUrl . 'category2.jpg',
-                'description' => 'Réservez des logements pratiques dans des immeubles partagés'
+                'image' => $baseUrl . 'category1.png',
+                'description' => 'Profitez d’un cadre moderne et fonctionnel. Les appartements allient confort et proximité des commodités, parfaits pour un style de vie urbain et pratique, seul ou en famille.'
             ],
             'studio' => [
                 'name' => 'Studio',
-                'image' => $baseUrl . 'category3.jpg',
-                'description' => 'Profitez de votre chambre privée et partagez les espaces communs avec d\'autres'
+                'image' => $baseUrl . 'category3.png',
+                'description' => 'Le studio est parfait pour les jeunes actifs ou étudiants. Compact et pratique, il offre tout le nécessaire dans un espace optimisé, souvent situé en centre-ville.'
             ],
         ];
+        
 
         $categories = [];
         foreach ($categoriesData as $key => $data) {
