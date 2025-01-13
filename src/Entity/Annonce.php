@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
 #[ApiResource(
@@ -24,8 +25,11 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
     'city' => 'exact',          // Recherche exacte par ville
     'postalCode' => 'exact',    // Recherche exacte par code postal
     'price' => 'exact',         // Recherche exacte ou range (selon le front)
-    'category.name' => 'exact'  // Recherche par catégorie
+    'category.name' => 'exact', // Recherche par catégorie
+    'maxOccupants' => 'exact',  // Recherche par nombre d'occupants (ajouté)
 ])]
+
+#[ApiFilter(RangeFilter::class, properties: ['price'])]
 class Annonce
 {
     // Identifiant unique de l'annonce
