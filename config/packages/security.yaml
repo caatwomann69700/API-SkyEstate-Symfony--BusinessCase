@@ -40,7 +40,7 @@ security:
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS } # Tout le monde peut accéder au point d'entrée de login
         - { path: ^/api, roles: PUBLIC_ACCESS }
-        - { path: ^/api/register, roles: PUBLIC_ACCESS } # Permet l'accès public à l'inscription       # Toutes les entités sous /api sont publiques
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }  # Assurer l'accès public à l'inscription
         # - { path: ^/api/login, roles: PUBLIC_ACCESS } # Tout le monde peut accéder au point d'entrée de login
         # - { path: ^/api, roles: PUBLIC_ACCESS }       # Toutes les entités sous /api sont publiques
 
