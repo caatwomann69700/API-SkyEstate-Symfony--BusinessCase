@@ -23,6 +23,16 @@ class UserFixtures extends Fixture
         $admin->setEmail('admin@example.com');
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setPassword($this->passwordHasher->hashPassword($admin, 'adminpassword'));
+        $admin->setLastname('Admin');
+        $admin->setFirstname('Administrator');
+        $admin->setBirthdate(new \DateTime('1980-01-01'));
+        $admin->setPhone('1234567890');
+        $admin->setGender('Male');
+        $admin->setAddress('123 Admin Street');
+        $admin->setCity('AdminCity');
+        $admin->setCountry('AdminLand');
+        $admin->setCreatedAt(new \DateTime());
+        $admin->setUpdatedAt(new \DateTime());
         $manager->persist($admin);
 
         // Création de plusieurs utilisateurs standards
@@ -31,6 +41,16 @@ class UserFixtures extends Fixture
             $user->setEmail("user$i@example.com");
             $user->setRoles(['ROLE_USER']);
             $user->setPassword($this->passwordHasher->hashPassword($user, 'userpassword'));
+            $user->setLastname("Lastname$i");
+            $user->setFirstname("Firstname$i");
+            $user->setBirthdate(new \DateTime('01-01-2002'));
+            $user->setPhone("12345678$i");
+            $user->setGender('Male');
+            $user->setAddress("123 User Street $i");
+            $user->setCity("UserCity$i");
+            $user->setCountry("UserLand$i");
+            $user->setCreatedAt(new \DateTime());
+            $user->setUpdatedAt(new \DateTime());
             $manager->persist($user);
         }
 
