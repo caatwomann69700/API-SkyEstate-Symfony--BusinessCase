@@ -2,157 +2,190 @@
 
 namespace App\Entity;
 
-// Importation des classes nécessaires
-use Doctrine\ORM\Mapping as ORM; // Pour configurer les propriétés de l'entité avec Doctrine
-use ApiPlatform\Metadata\ApiResource; // Pour exposer cette entité comme une ressource API
-use Symfony\Component\Serializer\Annotation\Groups; // Pour définir des groupes de sérialisation
-use App\Entity\Annonce; // Importation de l'entité Annonce
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 
-// Déclaration de l'entité Reservation et configuration pour API Platform
-#[ORM\Entity] // Indique que cette classe est une entité Doctrine
+#[ApiFilter(SearchFilter::class, properties: ['annonce' => 'exact'])] 
+
+#[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
 #[ApiResource(
-    normalizationContext: ['groups' => ['reservation:read']], // Contexte de lecture pour l'API
-    denormalizationContext: ['groups' => ['reservation:write']] // Contexte d'écriture pour l'API
+    normalizationContext: ['groups' => ['reservation:read']],
+    denormalizationContext: ['groups' => ['reservation:write']]
 )]
 class Reservation
 {
-    // Identifiant unique de la réservation (clé primaire)
-    #[ORM\Id] // Déclare cette propriété comme clé primaire
-    #[ORM\GeneratedValue] // Génère automatiquement l'identifiant
-    #[ORM\Column] // Colonne dans la base de données
-    #[Groups(['reservation:read'])] // Accessible en lecture via ce groupe
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    #[Groups(['reservation:read'])]
     private ?int $id = null;
 
-    // Date de début de la réservation
-    #[ORM\Column(type: 'datetime')] // Colonne de type datetime
-    #[Groups(['reservation:read', 'reservation:write'])] // Accessible en lecture et écriture via l'API
-    private ?\DateTimeInterface $startDate = null;
+    #[ORM\Column(type: 'datetime')]
+    #[Groups(['reservation:read', 'reservation:write'])]
+    #[Assert\NotBlank]
+    private ?\DateTime $startDate = null;
 
-    // Date de fin de la réservation
-    #[ORM\Column(type: 'datetime')] // Colonne de type datetime
-    #[Groups(['reservation:read', 'reservation:write'])] // Accessible en lecture et écriture
-    private ?\DateTimeInterface $endDate = null;
+    #[ORM\Column(type: 'datetime')]
+    #[Groups(['reservation:read', 'reservation:write'])]
+    #[Assert\NotBlank]
+    private ?\DateTime $endDate = null;
 
-    // Statut de la réservation (par exemple : confirmée, annulée)
-    #[ORM\Column(length: 255)] // Colonne string avec une longueur maximale de 255 caractères
-    #[Groups(['reservation:read', 'reservation:write'])] // Accessible en lecture et écriture
+    #[ORM\Column(length: 255)]
+    #[Groups(['reservation:read', 'reservation:write'])]
+    #[Assert\Choice(choices: ['pending', 'confirmed', 'canceled'], message: 'Invalid status.')]
     private ?string $status = null;
 
-    // Montant total de la réservation
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)] // Colonne décimale avec 2 décimales
-    #[Groups(['reservation:read', 'reservation:write'])] // Accessible en lecture et écriture
-    private ?string $totalAmount = null;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[Groups(['reservation:read', 'reservation:write'])]
+    #[Assert\PositiveOrZero]
+    private ?float $taxes = null;
 
-    // Date de création de la réservation
-    #[ORM\Column(type: 'datetime')] // Colonne de type datetime
-    #[Groups(['reservation:read'])] // Accessible uniquement en lecture
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[Groups(['reservation:read', 'reservation:write'])]
+    #[Assert\PositiveOrZero]
+    private ?float $serviceFees = null;
 
-    // Date de mise à jour de la réservation
-    #[ORM\Column(type: 'datetime')] // Colonne de type datetime
-    #[Groups(['reservation:read'])] // Accessible uniquement en lecture
-    private ?\DateTimeInterface $updatedAt = null;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[Groups(['reservation:read'])]
+    private ?float $totalAmount = null;
 
-    // Relation ManyToOne avec l'entité Annonce
-    #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: 'reservations')] // Relation avec l'entité Annonce
-    #[ORM\JoinColumn(nullable: false)] // La relation est obligatoire (non nullable)
-    #[Groups(['reservation:read', 'reservation:write'])] // Accessible en lecture et écriture
+    #[ORM\Column(type: 'datetime')]
+    #[Groups(['reservation:read'])]
+    private ?\DateTime $createdAt = null;
+
+    #[ORM\Column(type: 'datetime')]
+    #[Groups(['reservation:read'])]
+    private ?\DateTime $updatedAt = null;
+
+    #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: 'reservations')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservation:read', 'reservation:write'])]
     private ?Annonce $annonce = null;
 
-    // Getter pour l'identifiant de la réservation
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = $this->createdAt; // Initialiser updatedAt avec createdAt lors de la création
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function calculateTotalAmount(): void
+    {
+        if ($this->annonce && $this->taxes !== null && $this->serviceFees !== null) {
+            $this->totalAmount = $this->annonce->getPrice() + $this->taxes + $this->serviceFees;
+        }
+    }
+
+    // Getters et Setters
+
     public function getId(): ?int
     {
-        return $this->id; // Retourne l'identifiant unique
+        return $this->id;
     }
 
-    // Getter pour la date de début
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?\DateTime
     {
-        return $this->startDate; // Retourne la date de début de la réservation
+        return $this->startDate;
     }
 
-    // Setter pour la date de début
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartDate(\DateTime $startDate): self
     {
-        $this->startDate = $startDate; // Affecte une date de début
-        return $this; // Retourne l'objet courant pour le chaînage
+        $this->startDate = $startDate;
+        return $this;
     }
 
-    // Getter pour la date de fin
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?\DateTime
     {
-        return $this->endDate; // Retourne la date de fin de la réservation
+        return $this->endDate;
     }
 
-    // Setter pour la date de fin
-    public function setEndDate(\DateTimeInterface $endDate): self
+    public function setEndDate(\DateTime $endDate): self
     {
-        $this->endDate = $endDate; // Affecte une date de fin
-        return $this; // Retourne l'objet courant pour le chaînage
+        $this->endDate = $endDate;
+        return $this;
     }
 
-    // Getter pour le statut
     public function getStatus(): ?string
     {
-        return $this->status; // Retourne le statut de la réservation
+        return $this->status;
     }
 
-    // Setter pour le statut
     public function setStatus(string $status): self
     {
-        $this->status = $status; // Affecte un statut
-        return $this; // Retourne l'objet courant pour le chaînage
+        $this->status = $status;
+        return $this;
     }
 
-    // Getter pour le montant total
-    public function getTotalAmount(): ?string
+    public function getTaxes(): ?float
     {
-        return $this->totalAmount; // Retourne le montant total
+        return $this->taxes;
     }
 
-    // Setter pour le montant total
-    public function setTotalAmount(string $totalAmount): self
+    public function setTaxes(float $taxes): self
     {
-        $this->totalAmount = $totalAmount; // Affecte un montant total
-        return $this; // Retourne l'objet courant pour le chaînage
+        $this->taxes = $taxes;
+        return $this;
     }
 
-    // Getter pour la date de création
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getServiceFees(): ?float
     {
-        return $this->createdAt; // Retourne la date de création
+        return $this->serviceFees;
     }
 
-    // Setter pour la date de création
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setServiceFees(float $serviceFees): self
     {
-        $this->createdAt = $createdAt; // Affecte une date de création
-        return $this; // Retourne l'objet courant pour le chaînage
+        $this->serviceFees = $serviceFees;
+        return $this;
     }
 
-    // Getter pour la date de mise à jour
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getTotalAmount(): ?float
     {
-        return $this->updatedAt; // Retourne la date de mise à jour
+        return $this->totalAmount;
     }
 
-    // Setter pour la date de mise à jour
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function getCreatedAt(): ?\DateTime
     {
-        $this->updatedAt = $updatedAt; // Affecte une date de mise à jour
-        return $this; // Retourne l'objet courant pour le chaînage
+        return $this->createdAt;
     }
 
-    // Getter pour l'annonce associée
+    public function setCreatedAt(\DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
     public function getAnnonce(): ?Annonce
     {
-        return $this->annonce; // Retourne l'annonce liée à la réservation
+        return $this->annonce;
     }
 
-    // Setter pour l'annonce associée
     public function setAnnonce(?Annonce $annonce): self
     {
-        $this->annonce = $annonce; // Lie la réservation à une annonce
-        return $this; // Retourne l'objet courant pour le chaînage
+        $this->annonce = $annonce;
+        return $this;
     }
 }

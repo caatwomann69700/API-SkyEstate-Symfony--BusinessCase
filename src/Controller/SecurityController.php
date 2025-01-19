@@ -59,6 +59,20 @@ $user->setBirthdate($birthdate);
     return $this->json(['message' => 'User registered successfully!'], JsonResponse::HTTP_CREATED);
 }
 
+#[Route('/api/users/me', name: 'get_user_details', methods: ['GET'])]
+public function getUserDetails(): JsonResponse
+{
+    $user = $this->getUser();
+
+    if (!$user) {
+        // Log pour vérifier si aucun utilisateur n'est chargé
+        return $this->json(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    // Log pour vérifier les détails de l'utilisateur
+    return $this->json($user, JsonResponse::HTTP_OK, [], ['groups' => ['user:read']]);
+}
+
 
 #[Route('/api/users/{id}', name: 'update_user', methods: ['PUT'])]
 public function updateUser(

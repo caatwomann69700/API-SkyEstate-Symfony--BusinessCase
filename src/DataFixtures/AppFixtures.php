@@ -25,7 +25,7 @@ class AppFixtures extends Fixture
             'maison' => [
                 'name' => 'Maison',
                 'image' => $baseUrl . 'category2.png',
-                'description' => 'Découvrez le confort des maisons spacieuses, idéales pour accueillir votre famille ou profiter de moments paisibles. Avec des jardins privés et des pièces lumineuses, chaque maison est un foyer unique.'
+                'description' => 'Découvrez le confort des maisons spacieuses, idéales pour accueillir votre famille ou profiter de moments paisibles. Avec des jardins privés et des pièces lumineuses.'
             ],
             'appartement' => [
                 'name' => 'Appartement',
