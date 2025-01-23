@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 class ReservationController extends AbstractController
-{
+{ 
     // Endpoint pour créer une réservation
     #[Route('/api/reservations', name: 'create_reservation', methods: ['POST'])]
     public function createReservation(Request $request, AnnonceRepository $annonceRepository, EntityManagerInterface $entityManager, Security $security): JsonResponse

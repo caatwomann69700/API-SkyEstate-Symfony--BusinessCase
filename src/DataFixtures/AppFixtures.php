@@ -17,24 +17,24 @@ class AppFixtures extends Fixture
 
         
         // Base URL pour les images locales
-        $baseUrl = 'http://localhost:8000/images/';
+        
 
         
         // Création des catégories avec leurs images et descriptions
         $categoriesData = [
             'maison' => [
                 'name' => 'Maison',
-                'image' => $baseUrl . 'category2.png',
+                'image' =>  'category2.png',
                 'description' => 'Découvrez le confort des maisons spacieuses, idéales pour accueillir votre famille ou profiter de moments paisibles. Avec des jardins privés et des pièces lumineuses.'
             ],
             'appartement' => [
                 'name' => 'Appartement',
-                'image' => $baseUrl . 'category1.png',
+                'image' =>  'category1.png',
                 'description' => 'Profitez d’un cadre moderne et fonctionnel. Les appartements allient confort et proximité des commodités, parfaits pour un style de vie urbain et pratique, seul ou en famille.'
             ],
             'studio' => [
                 'name' => 'Studio',
-                'image' => $baseUrl . 'category3.png',
+                'image' =>  'category3.png',
                 'description' => 'Le studio est parfait pour les jeunes actifs ou étudiants. Compact et pratique, il offre tout le nécessaire dans un espace optimisé, souvent situé en centre-ville.'
             ],
         ];
@@ -46,7 +46,7 @@ class AppFixtures extends Fixture
             $category = new Category();
             $category->setName($data['name'])
                      ->setDescription($data['description']);
-
+            
             // Créer une instance Image pour la catégorie
             $image = new Image();
             $image->setName($data['image']);
@@ -64,7 +64,7 @@ class AppFixtures extends Fixture
 
    // Base URL pour les icônes des amenities
   
-   $iconBaseUrl = 'http://localhost:8000/icons/';
+   $iconBaseUrl = '';
    // Création des amenities globales avec leurs icônes
    $amenitiesData = [
        ['name' => 'Vue sur le jardin', 'icon' => 'garden.png'],
@@ -123,7 +123,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '34000',
                 'location' => '12 avenue du Jeu de Paume',
                 'maxOccupants' => '1',
-                'image' => $baseUrl . 'Studiocosy.jpg',
+                'image' =>  'Studiocosy.jpg',
                 'category' => 'studio',
                 'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Télévision', 'Espace de travail dédié', 'Alarme incendie']
             ],
@@ -136,7 +136,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '31000',
                 'location' => '18 boulevard Carnot',
                 'maxOccupants' => '2',
-                'image' => $baseUrl . 'appartementprochedestransports.jpg',
+                'image' =>  'appartementprochedestransports.jpg',
                 'category' => 'appartement',
                 'amenities' => ['Wifi', 'Cuisine', 'Parking gratuit sur place', 'Climatisation', 'Chauffage', 'Télévision']
             ],
@@ -149,7 +149,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '67000',
                 'location' => '22 rue du Maire Kuss',
                 'maxOccupants' => '1',
-                'image' => $baseUrl . 'Petitstudio.jpg',
+                'image' =>  'Petitstudio.jpg',
                 'category' => 'studio',
                 'amenities' => ['Cuisine', 'Chauffage', 'Télévision', 'Alarme incendie', 'Privé : patio ou balcon', 'Wifi']
             ],
@@ -162,7 +162,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '59000',
                 'location' => '14 rue Nationale',
                 'maxOccupants' => '2',
-                'image' => $baseUrl . 'appartement_compact.jpg',
+                'image' =>  'appartement_compact.jpg',
                 'category' => 'appartement',
                 'amenities' => ['Wifi', 'Cuisine', 'Espace de travail dédié', 'Parking gratuit sur place', 'Chauffage', 'Télévision']
             ],
@@ -175,7 +175,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '37000',
                 'location' => '22 Rue Nationale',
                 'maxOccupants' => '5',
-                'image' => $baseUrl . 'MaisondecharmeàTours.jpg',
+                'image' =>  'MaisondecharmeàTours.jpg',
                 'category' => 'maison',
                 'amenities' => [
                     'Vue sur le jardin',
@@ -195,7 +195,7 @@ class AppFixtures extends Fixture
                 'postalcode' => '44000',
                 'location' => '5 place Royale',
                 'maxOccupants' => '1',
-                'image' => $baseUrl . 'studio_moderne.jpg',
+                'image' =>  'studio_moderne.jpg',
                 'category' => 'studio',
                 'amenities' => ['Cuisine', 'Chauffage', 'Wifi', 'Télévision', 'Espace de travail dédié', 'Alarme incendie']
             ],
@@ -208,7 +208,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '75001',
                     'location' => '12 rue de Rivoli',
                     'maxOccupants' => '4',
-                    'image' => $baseUrl . 'Superbeappartementaucentre-ville.jpg',
+                    'image' =>  'Superbeappartementaucentre-ville.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Wifi',
@@ -228,7 +228,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '69005',
                     'location' => '8 chemin du Vallon',
                     'maxOccupants' => '6',
-                    'image' => $baseUrl . 'house_lyon.jpg',
+                    'image' =>  'house_lyon.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -248,7 +248,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '67000',
                     'location' => '15 Rue des Écrivains',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio-strasbourg.jpg',
+                    'image' =>  'studio-strasbourg.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -268,7 +268,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '31000',
                     'location' => '10 Place du Capitole',
                     'maxOccupants' => '3',
-                    'image' => $baseUrl . 'appartement-toulouse.jpg',
+                    'image' =>  'appartement-toulouse.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -288,7 +288,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '68000',
                     'location' => '25 Rue des Tanneurs',
                     'maxOccupants' => '6',
-                    'image' => $baseUrl . 'maison-colmar.jpg',
+                    'image' =>  'maison-colmar.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Wifi',
@@ -308,7 +308,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '35000',
                     'location' => '18 Rue Saint-Michel',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio-rennes.jpg',
+                    'image' =>  'studio-rennes.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -328,7 +328,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '69000',
                     'location' => '20 Quai de Saône',
                     'maxOccupants' => '4',
-                    'image' => $baseUrl . 'appartement-lyon.jpg',
+                    'image' =>  'appartement-lyon.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -348,7 +348,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '38000',
                     'location' => '35 Rue Félix Viallet',
                     'maxOccupants' => '5',
-                    'image' => $baseUrl . 'maison-grenoble.jpg',
+                    'image' =>  'maison-grenoble.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Cheminée',
@@ -368,7 +368,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '34000',
                     'location' => '8 Place de la Comédie',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio-montpellier.jpg',
+                    'image' =>  'studio-montpellier.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -388,7 +388,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '33000',
                     'location' => '15 Quai des Chartrons',
                     'maxOccupants' => '4',
-                    'image' => $baseUrl . 'appartement-bordeaux.jpg',
+                    'image' =>  'appartement-bordeaux.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -408,7 +408,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '13100',
                     'location' => '12 Avenue des Belges',
                     'maxOccupants' => '6',
-                    'image' => $baseUrl . 'maison-aix.jpg',
+                    'image' =>  'maison-aix.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Piscine',
@@ -428,7 +428,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '74000',
                     'location' => '5 Rue de la République',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio-annecy.jpg',
+                    'image' =>  'studio-annecy.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -448,7 +448,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '44000',
                     'location' => '20 Rue Crébillon',
                     'maxOccupants' => '3',
-                    'image' => $baseUrl . 'appartement-nantes.jpg',
+                    'image' =>  'appartement-nantes.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Privé : patio ou balcon',
@@ -468,7 +468,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '33000',
                     'location' => '15 route des Vignes',
                     'maxOccupants' => '6',
-                    'image' => $baseUrl . '12355.jpg',
+                    'image' =>  '12355.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -488,7 +488,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '69002',
                     'location' => '25 place Bellecour',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'imagemarsseil.jpg',
+                    'image' =>  'imagemarsseil.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -508,7 +508,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '13006',
                     'location' => '10 avenue du Prado',
                     'maxOccupants' => '5',
-                    'image' => $baseUrl . 'imagedidi.jpg',
+                    'image' =>  'imagedidi.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Cuisine',
@@ -528,7 +528,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '34000',
                     'location' => '12 rue du Faubourg',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio_etudiant.jpg',
+                    'image' =>  'studio_etudiant.jpg',
                     'category' => 'studio',
                     'amenities' => ['Wifi', 'Chauffage', 'Cuisine', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment', 'Alarme incendie']
                 ],
@@ -541,7 +541,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '59000',
                     'location' => '25 avenue Foch',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'appartement_partage.jpg',
+                    'image' =>  'appartement_partage.jpg',
                     'category' => 'appartement',
                     'amenities' => ['Wifi', 'Cuisine', 'Climatisation', 'Télévision', 'Chauffage', 'Lave-linge (Gratuit) dans le bâtiment']
                 ],
@@ -554,7 +554,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '63000',
                     'location' => '8 boulevard François Mitterrand',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio_cosy.jpg',
+                    'image' =>  'studio_cosy.jpg',
                     'category' => 'studio',
                     'amenities' => ['Wifi', 'Chauffage', 'Cuisine', 'Télévision', 'Barbecue', 'Espace de travail dédié']
                 ],
@@ -567,7 +567,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '49000',
                     'location' => '6 chemin de la Vallée',
                     'maxOccupants' => '2',
-                    'image' => $baseUrl . 'maison_campagne.jpg',
+                    'image' =>  'maison_campagne.jpg',
                     'category' => 'maison',
                     'amenities' => ['Wifi', 'Chauffage', 'Cuisine', 'Privé : patio ou balcon', 'Télévision', 'Parking gratuit sur place']
                 ],
@@ -580,7 +580,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '35000',
                     'location' => '10 rue Saint-Georges',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'chambre_economique.jpg',
+                    'image' =>  'chambre_economique.jpg',
                     'category' => 'appartement',
                     'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment', 'Alarme incendie']
                 ],
@@ -593,7 +593,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '06000',
                     'location' => '5 promenade des Anglais',
                     'maxOccupants' => '3',
-                    'image' => $baseUrl . 'imagesbordeaux.jpg',
+                    'image' =>  'imagesbordeaux.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Wifi',
@@ -613,7 +613,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '59000',
                     'location' => '5 Place Rihour',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio-lille.jpg',
+                    'image' =>  'studio-lille.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -633,7 +633,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '76000',
                     'location' => '12 Rue du Gros-Horloge',
                     'maxOccupants' => '2',
-                    'image' => $baseUrl . 'maison-rouen.jpg',
+                    'image' =>  'maison-rouen.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -653,7 +653,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '54000',
                     'location' => '15 Rue Stanislas',
                     'maxOccupants' => '2',
-                    'image' => $baseUrl . 'appartement-nancy.jpg',
+                    'image' =>  'appartement-nancy.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Wifi',
@@ -673,7 +673,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '29200',
                     'location' => '8 Quai Commandant Malbert',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio-brest.jpg',
+                    'image' =>  'studio-brest.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -693,7 +693,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '21000',
                     'location' => '20 Avenue de la Gare',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'appartement-dijon.jpg',
+                    'image' =>  'appartement-dijon.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Wifi',
@@ -713,7 +713,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '44000',
                         'location' => '10 Rue de la République',
                         'maxOccupants' => '1',
-                        'image' => $baseUrl . 'studio-nantes.jpg',
+                        'image' =>  'studio-nantes.jpg',
                         'category' => 'studio',
                         'amenities' => [
                             'Wifi',
@@ -733,7 +733,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '06000',
                         'location' => '5 Place Garibaldi',
                         'maxOccupants' => '2',
-                        'image' => $baseUrl . 'appartement-nice.jpg',
+                        'image' =>  'appartement-nice.jpg',
                         'category' => 'appartement',
                         'amenities' => [
                             'Wifi',
@@ -753,7 +753,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '34000',
                         'location' => '18 Rue Foch',
                         'maxOccupants' => '4',
-                        'image' => $baseUrl . 'maison-montpellier.jpg',
+                        'image' =>  'maison-montpellier.jpg',
                         'category' => 'maison',
                         'amenities' => [
                             'Vue sur le jardin',
@@ -773,7 +773,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '13001',
                         'location' => '22 Rue Saint-Charles',
                         'maxOccupants' => '1',
-                        'image' => $baseUrl . 'studio-marseille.jpg',
+                        'image' =>  'studio-marseille.jpg',
                         'category' => 'studio',
                         'amenities' => [
                             'Wifi',
@@ -793,7 +793,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '67000',
                         'location' => '7 Rue de la Paix',
                         'maxOccupants' => '3',
-                        'image' => $baseUrl . 'appartement-strasbourg.jpg',
+                        'image' =>  'appartement-strasbourg.jpg',
                         'category' => 'appartement',
                         'amenities' => [
                             'Wifi',
@@ -813,7 +813,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '31000',
                         'location' => '12 Rue Alsace-Lorraine',
                         'maxOccupants' => '5',
-                        'image' => $baseUrl . 'maison-toulouse.jpg',
+                        'image' =>  'maison-toulouse.jpg',
                         'category' => 'maison',
                         'amenities' => [
                             'Piscine',
@@ -833,7 +833,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '69001',
                         'location' => '8 Place Bellecour',
                         'maxOccupants' => '1',
-                        'image' => $baseUrl . 'studio-lyon.jpg',
+                        'image' =>  'studio-lyon.jpg',
                         'category' => 'studio',
                         'amenities' => [
                             'Wifi',
@@ -853,7 +853,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '33000',
                         'location' => '15 Rue Sainte-Catherine',
                         'maxOccupants' => '2',
-                        'image' => $baseUrl . 'appartement-bordeau.jpg',
+                        'image' =>  'appartement-bordeau.jpg',
                         'category' => 'appartement',
                         'amenities' => [
                             'Wifi',
@@ -873,7 +873,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '84000',
                         'location' => '10 Rue des Teinturiers',
                         'maxOccupants' => '4',
-                        'image' => $baseUrl . 'maison-avignon.jpg',
+                        'image' =>  'maison-avignon.jpg',
                         'category' => 'maison',
                         'amenities' => [
                             'Wifi',
@@ -893,7 +893,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '51100',
                         'location' => '6 Rue de Vesle',
                         'maxOccupants' => '1',
-                        'image' => $baseUrl . 'studio-reims.jpg',
+                        'image' =>  'studio-reims.jpg',
                         'category' => 'studio',
                         'amenities' => [
                             'Wifi',
@@ -913,7 +913,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '76000',
                     'location' => '20 rue Saint-Sever',
                     'maxOccupants' => '5',
-                    'image' => $baseUrl . 'imagerouen.jpg',
+                    'image' =>  'imagerouen.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -933,7 +933,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '75005',
                     'location' => '7 rue Soufflot',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'imageparis_studio.jpg',
+                    'image' =>  'imageparis_studio.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -953,7 +953,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '59000',
                     'location' => '15 rue Nationale',
                     'maxOccupants' => '3',
-                    'image' => $baseUrl . 'imagelille.jpg',
+                    'image' =>  'imagelille.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Wifi',
@@ -973,7 +973,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '21000',
                     'location' => '3 boulevard Carnot',
                     'maxOccupants' => '4',
-                    'image' => $baseUrl . 'imagedijon.jpg',
+                    'image' =>  'imagedijon.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -993,7 +993,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '51100',
                     'location' => '8 rue Chanzy',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'imagereims.jpg',
+                    'image' =>  'imagereims.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Cuisine',
@@ -1013,7 +1013,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '59000',
                     'location' => '12 Rue Nationale',
                     'maxOccupants' => '3',
-                    'image' => $baseUrl . 'appartement-lille.jpg',
+                    'image' =>  'appartement-lille.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Climatisation',
@@ -1033,7 +1033,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '38000',
                     'location' => '5 Rue Félix Viallet',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio-grenoble.jpg',
+                    'image' =>  'studio-grenoble.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -1053,7 +1053,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '17000',
                     'location' => '8 Rue Saint-Nicolas',
                     'maxOccupants' => '4',
-                    'image' => $baseUrl . 'maison-larochelle.jpg',
+                    'image' =>  'maison-larochelle.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -1073,7 +1073,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '63000',
                     'location' => '10 Place de Jaude',
                     'maxOccupants' => '2',
-                    'image' => $baseUrl . 'appartement-clermont.jpg',
+                    'image' =>  'appartement-clermont.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Wifi',
@@ -1093,7 +1093,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '64000',
                     'location' => '3 Boulevard des Pyrénées',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio-pau.jpg',
+                    'image' =>  'studio-pau.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -1114,7 +1114,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '64200',
                     'location' => '14 Avenue de la Plage',
                     'maxOccupants' => '3',
-                    'image' => $baseUrl . 'appartement-biarritz.jpg',
+                    'image' =>  'appartement-biarritz.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Vue sur le jardin',
@@ -1134,7 +1134,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '21000',
                     'location' => '7 Rue de la Liberté',
                     'maxOccupants' => '1',
-                    'image' => $baseUrl . 'studio-dijon.jpg',
+                    'image' =>  'studio-dijon.jpg',
                     'category' => 'studio',
                     'amenities' => [
                         'Wifi',
@@ -1154,7 +1154,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '66000',
                     'location' => '5 Rue du Castillet',
                     'maxOccupants' => '4',
-                    'image' => $baseUrl . 'maison-perpignan.jpg',
+                    'image' =>  'maison-perpignan.jpg',
                     'category' => 'maison',
                     'amenities' => [
                         'Barbecue',
@@ -1174,7 +1174,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '49000',
                     'location' => '9 Place du Ralliement',
                     'maxOccupants' => '3',
-                    'image' => $baseUrl . 'appartement-angers.jpg',
+                    'image' =>  'appartement-angers.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Wifi',
@@ -1194,7 +1194,7 @@ class AppFixtures extends Fixture
                     'postalcode' => '45000',
                     'location' => '18 rue Jeanne d\'Arc',
                     'maxOccupants' => '2',
-                    'image' => $baseUrl . 'imageorleans.jpg',
+                    'image' =>  'imageorleans.jpg',
                     'category' => 'appartement',
                     'amenities' => [
                         'Wifi',
@@ -1215,7 +1215,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '31000',
                         'location' => '25 rue des Lilas',
                         'maxOccupants' => '6',
-                        'image' => $baseUrl . 'maison2.jpg',
+                        'image' =>  'maison2.jpg',
                         'category' => 'maison',
                         'amenities' => ['Piscine', 'Barbecue', 'Climatisation', 'Parking gratuit sur place', 'Vue sur le jardin', 'Cheminée']
                     ],
@@ -1228,7 +1228,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '59000',
                         'location' => '14 place de la République',
                         'maxOccupants' => '2',
-                        'image' => $baseUrl . 'studio2.jpg',
+                        'image' =>  'studio2.jpg',
                         'category' => 'studio',
                         'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment', 'Télévision']
                     ],
@@ -1241,7 +1241,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '67000',
                         'location' => '3 avenue des Vosges',
                         'maxOccupants' => '4',
-                        'image' => $baseUrl . 'appartement3.jpg',
+                        'image' =>  'appartement3.jpg',
                         'category' => 'appartement',
                         'amenities' => ['Climatisation', 'Parking gratuit sur place', 'Salle de sport', 'Jacuzzi', 'Vue sur le jardin', 'Cuisine']
                     ],
@@ -1254,7 +1254,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '44000',
                         'location' => '8 rue de la Loire',
                         'maxOccupants' => '8',
-                        'image' => $baseUrl . 'maison3.jpg',
+                        'image' =>  'maison3.jpg',
                         'category' => 'maison',
                         'amenities' => ['Barbecue', 'Piscine', 'Climatisation', 'Lit bébé', 'Alarme incendie', 'Parking gratuit sur place']
                     ],
@@ -1267,7 +1267,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '34000',
                         'location' => '22 rue du Marché',
                         'maxOccupants' => '2',
-                        'image' => $baseUrl . 'studio3.jpg',
+                        'image' =>  'studio3.jpg',
                         'category' => 'studio',
                         'amenities' => ['Cuisine', 'Climatisation', 'Espace de travail dédié', 'Télévision', 'Privé : patio ou balcon', 'Chauffage']
                     ],
@@ -1281,7 +1281,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '69002',
                         'location' => '35 rue Victor Hugo',
                         'maxOccupants' => '2',
-                        'image' => $baseUrl . 'appartement_commerce.jpg',
+                        'image' =>  'appartement_commerce.jpg',
                         'category' => 'appartement',
                         'amenities' => ['Wifi', 'Cuisine', 'Climatisation', 'Chauffage', 'Télévision', 'Barbecue']
                     ],
@@ -1294,7 +1294,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '06000',
                         'location' => '10 avenue Jean Médecin',
                         'maxOccupants' => '1',
-                        'image' => $baseUrl . 'studio_fonctionnel.jpg',
+                        'image' =>  'studio_fonctionnel.jpg',
                         'category' => 'studio',
                         'amenities' => ['Cuisine', 'Climatisation', 'Wifi', 'Chauffage', 'Espace de travail dédié', 'Piscine']
                     ],
@@ -1307,7 +1307,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '13011',
                         'location' => '42 chemin des Vallons',
                         'maxOccupants' => '4',
-                        'image' => $baseUrl . 'maison_cosy.jpg',
+                        'image' =>  'maison_cosy.jpg',
                         'category' => 'maison',
                         'amenities' => ['Wifi', 'Climatisation', 'Cuisine', 'Privé : patio ou balcon', 'Télévision', 'Parking gratuit sur place']
                     ],
@@ -1320,7 +1320,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '31000',
                         'location' => '20 allée Jean Jaurès',
                         'maxOccupants' => '3',
-                        'image' => $baseUrl . 'appartement_balcon.jpg',
+                        'image' =>  'appartement_balcon.jpg',
                         'category' => 'appartement',
                         'amenities' => ['Cuisine', 'Climatisation', 'Barbecue', 'Télévision', 'Chauffage', 'Alarme incendie']
                     ],
@@ -1333,7 +1333,7 @@ class AppFixtures extends Fixture
                         'postalcode' => '33000',
                         'location' => '15 cours de l’Intendance',
                         'maxOccupants' => '1',
-                        'image' => $baseUrl . 'studio_centreville.jpg',
+                        'image' =>  'studio_centreville.jpg',
                         'category' => 'studio',
                         'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Télévision', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment']
                     ],
@@ -1346,7 +1346,7 @@ class AppFixtures extends Fixture
                             'postalcode' => '13007',
                             'location' => '10 quai des Belges',
                             'maxOccupants' => '8',
-                            'image' => $baseUrl . 'maison_bord_mer.jpg',
+                            'image' =>  'maison_bord_mer.jpg',
                             'category' => 'maison',
                             'amenities' => ['Vue sur le jardin', 'Parking gratuit sur place', 'Climatisation', 'Piscine', 'Jacuzzi', 'Cheminée']
                         ],
@@ -1359,7 +1359,7 @@ class AppFixtures extends Fixture
                             'postalcode' => '06000',
                             'location' => '2 avenue Jean Médecin',
                             'maxOccupants' => '6',
-                            'image' => $baseUrl . 'duplex_nice.jpg',
+                            'image' =>  'duplex_nice.jpg',
                             'category' => 'appartement',
                             'amenities' => ['Wifi', 'Salle de sport', 'Télévision', 'Espace de travail dédié', 'Climatisation', 'Cuisine']
                         ],
@@ -1372,7 +1372,7 @@ class AppFixtures extends Fixture
                             'postalcode' => '69006',
                             'location' => '33 rue Garibaldi',
                             'maxOccupants' => '1',
-                            'image' => $baseUrl . 'studio_calme.jpg',
+                            'image' =>  'studio_calme.jpg',
                             'category' => 'studio',
                             'amenities' => ['Cuisine', 'Climatisation', 'Chauffage', 'Privé : patio ou balcon', 'Alarme incendie', 'Télévision']
                         ],
@@ -1385,7 +1385,7 @@ class AppFixtures extends Fixture
                             'postalcode' => '33000',
                             'location' => '5 rue Sainte-Catherine',
                             'maxOccupants' => '7',
-                            'image' => $baseUrl . 'maison_terrasse.jpg',
+                            'image' =>  'maison_terrasse.jpg',
                             'category' => 'maison',
                             'amenities' => ['Barbecue', 'Piscine', 'Climatisation', 'Lit bébé', 'Station de recharge pour véhicules électriques', 'Parking gratuit sur place']
                         ],
@@ -1398,7 +1398,7 @@ class AppFixtures extends Fixture
                             'postalcode' => '35000',
                             'location' => '7 place de Bretagne',
                             'maxOccupants' => '2',
-                            'image' => $baseUrl . 'studio_elegant.jpg',
+                            'image' =>  'studio_elegant.jpg',
                             'category' => 'studio',
                             'amenities' => ['Cuisine', 'Télévision', 'Wifi', 'Espace de travail dédié', 'Chauffage', 'Climatisation']
                         ]
@@ -1437,7 +1437,7 @@ class AppFixtures extends Fixture
             for ($i = 1; $i <= 6; $i++) {
              $imageList = new \App\Entity\ImageList();
              // Générer un chemin unique pour chaque image
-            $uniqueImageName = "http://localhost:8000/images/image_{$index}_{$i}.jpg";
+            $uniqueImageName = "image_{$index}_{$i}.jpg";
             $imageList->setName($uniqueImageName);
             $imageList->setAnnonce($annonce);
 

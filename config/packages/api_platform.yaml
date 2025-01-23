@@ -14,3 +14,6 @@ api_platform:
         max_joins: 5000 # Augmentez la limite
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
