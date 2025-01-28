@@ -64,12 +64,10 @@ public function getUserDetails(): JsonResponse
 {
     $user = $this->getUser();
 
-    if (!$user) {
-        // Log pour vérifier si aucun utilisateur n'est chargé
+    if (!$user instanceof User) {
         return $this->json(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 
-    // Log pour vérifier les détails de l'utilisateur
     return $this->json($user, JsonResponse::HTTP_OK, [], ['groups' => ['user:read']]);
 }
 
