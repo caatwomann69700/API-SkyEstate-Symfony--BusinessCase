@@ -12,6 +12,9 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use App\Entity\User; 
+use App\Entity\Image; 
+
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
 #[ApiResource(
@@ -118,11 +121,48 @@ class Annonce
     #[Groups(['annonces:read', 'annonces:write'])]
     private Collection $imagesList;
 
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'annonces')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['annonces:read', 'annonces:write'])]
+    private ?User $user = null;
+
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->amenities = new ArrayCollection();
         $this->imagesList = new ArrayCollection();
+        $this->users = new ArrayCollection(); // Initialiser la collection des utilisateurs
+    }
+    
+    // Getter pour les utilisateurs
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+    
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    // Ajouter un utilisateur à l'annonce
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+        return $this;
+    }
+
+    // Supprimer un utilisateur de l'annonce
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
+        return $this;
     }
 
     // Getters et Setters (inchangés mais vérifiés)

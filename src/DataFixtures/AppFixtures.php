@@ -3,23 +3,135 @@
 namespace App\DataFixtures;
 
 use App\Entity\Annonce;
+use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Category;
 use App\Entity\Amenity;
+use App\Entity\ImageList;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     public function load(ObjectManager $manager): void
     {
+            // Initialiser $users comme un tableau vide
+        $users = [];
 
-        
-        // Base URL pour les images locales
-        
+        // Création de l'utilisateur admin
+        $admin = new User();
+        $admin->setEmail('admin@example.com') // <-- Problème ici
+            ->setRoles(['ROLE_ADMIN'])
+            ->setPassword($this->passwordHasher->hashPassword($admin, 'adminpassword'))
+            ->setLastname('Admin')
+            ->setFirstname('Administrator')
+            ->setBirthdate(new \DateTime('1980-01-01'))
+            ->setPhone('1234567890')
+            ->setGender('Male')
+            ->setAddress('123 Admin Street')
+            ->setCity('AdminCity')
+            ->setCountry('AdminLand')
+            ->setCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($admin);
+        $users[] = $admin;
 
-        
+        // Création des utilisateurs standards
+        $user1 = new User();
+        $user1->setEmail('sarahdebiani@gmail.com')
+            ->setRoles(['ROLE_USER'])
+            ->setPassword($this->passwordHasher->hashPassword($user1, 'userpassword1'))
+            ->setLastname('Debiani')
+            ->setFirstname('Sarah')
+            ->setBirthdate(new \DateTime('1990-02-15'))
+            ->setPhone('1234567891')
+            ->setGender('Female')
+            ->setAddress('1 Rue des Fleurs')
+            ->setCity('CityOne')
+            ->setCountry('CountryOne')
+            ->setCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($user1);
+        $users[] = $user1;
+
+        $user2 = new User();
+        $user2->setEmail('sofiadebiani@gmail.com')
+            ->setRoles(['ROLE_USER'])
+            ->setPassword($this->passwordHasher->hashPassword($user2, 'userpassword2'))
+            ->setLastname('Debiani')
+            ->setFirstname('Sofia')
+            ->setBirthdate(new \DateTime('1993-05-10'))
+            ->setPhone('1234567892')
+            ->setGender('Female')
+            ->setAddress('2 Rue de la Paix')
+            ->setCity('CityTwo')
+            ->setCountry('CountryTwo')
+            ->setCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($user2);
+        $users[] = $user2;
+
+        $user3 = new User();
+        $user3->setEmail('soniadebiani@gmail.com')
+            ->setRoles(['ROLE_USER'])
+            ->setPassword($this->passwordHasher->hashPassword($user3, 'userpassword3'))
+            ->setLastname('Debiani')
+            ->setFirstname('Sonia')
+            ->setBirthdate(new \DateTime('1995-07-20'))
+            ->setPhone('1234567893')
+            ->setGender('Female')
+            ->setAddress('3 Rue des Lilas')
+            ->setCity('CityThree')
+            ->setCountry('CountryThree')
+            ->setCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($user3);
+        $users[] = $user3;
+
+        $user4 = new User();
+        $user4->setEmail('sofianedebiani@gmail.com')
+            ->setRoles(['ROLE_USER'])
+            ->setPassword($this->passwordHasher->hashPassword($user4, 'userpassword4'))
+            ->setLastname('Debiani')
+            ->setFirstname('Sofiane')
+            ->setBirthdate(new \DateTime('1988-01-10'))
+            ->setPhone('1234567894')
+            ->setGender('Male')
+            ->setAddress('4 Rue des Roses')
+            ->setCity('CityFour')
+            ->setCountry('CountryFour')
+            ->setCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($user4);
+        $users[] = $user4;
+
+        $user5 = new User();
+        $user5->setEmail('amardebiani@gmail.com')
+            ->setRoles(['ROLE_USER'])
+            ->setPassword($this->passwordHasher->hashPassword($user5, 'userpassword5'))
+            ->setLastname('Debiani')
+            ->setFirstname('Amar')
+            ->setBirthdate(new \DateTime('1985-11-25'))
+            ->setPhone('1234567895')
+            ->setGender('Male')
+            ->setAddress('5 Rue de la Liberté')
+            ->setCity('CityFive')
+            ->setCountry('CountryFive')
+            ->setCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($user5);
+        $users[] = $user5;
+
+
+     
         // Création des catégories avec leurs images et descriptions
         $categoriesData = [
             'maison' => [
@@ -64,9 +176,9 @@ class AppFixtures extends Fixture
 
    // Base URL pour les icônes des amenities
   
-   $iconBaseUrl = '';
-   // Création des amenities globales avec leurs icônes
-   $amenitiesData = [
+   $iconBaseUrl = ''; // Remplace par l'URL correcte de tes icônes
+
+    $amenitiesData = [
        ['name' => 'Vue sur le jardin', 'icon' => 'garden.png'],
        ['name' => 'Cuisine', 'icon' => 'kitchen.png'],
        ['name' => 'Wifi', 'icon' => 'wifi.png'],
@@ -90,21 +202,18 @@ class AppFixtures extends Fixture
    ];
 
    $amenities = [];
-   foreach ($amenitiesData as $data) {
-       // Génération du chemin complet de l'icône
-       $iconUrl = $iconBaseUrl . $data['icon'];
 
-       // Création de l'entité Image
-       $icon = new Image();
-       $icon->setName($iconUrl); // Définir l'URL HTTP complète de l'image
-       $manager->persist($icon);
 
-       // Création de l'entité Amenity
-       $amenity = new Amenity();
-       $amenity->setName($data['name'])
-               ->setIcon($icon); // Associer l'image à l'amenity
+foreach ($amenitiesData as $data) {
+    $image = new Image();
+    $image->setName($data['icon']);
+    $manager->persist($image);
 
-       $manager->persist($amenity);
+    $amenity = new Amenity();
+    $amenity->setName($data['name']);
+    $amenity->setIcon($image); // ✅ Associe une image à chaque Amenity
+
+    $manager->persist($amenity);
 
        // Sauvegarde dans le tableau pour des relations fixes si nécessaire
        $amenities[$data['name']] = $amenity;
@@ -125,7 +234,8 @@ class AppFixtures extends Fixture
                 'maxOccupants' => '1',
                 'image' =>  'Studiocosy.jpg',
                 'category' => 'studio',
-                'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Télévision', 'Espace de travail dédié', 'Alarme incendie']
+                'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Télévision', 'Espace de travail dédié', 'Alarme incendie'],
+                'user' => $user1, // Liaison avec l'utilisateur 1
             ],
             [
                 'title' => 'Appartement fonctionnel proche des transports',
@@ -138,7 +248,8 @@ class AppFixtures extends Fixture
                 'maxOccupants' => '2',
                 'image' =>  'appartementprochedestransports.jpg',
                 'category' => 'appartement',
-                'amenities' => ['Wifi', 'Cuisine', 'Parking gratuit sur place', 'Climatisation', 'Chauffage', 'Télévision']
+                'amenities' => ['Wifi', 'Cuisine', 'Parking gratuit sur place', 'Climatisation', 'Chauffage', 'Télévision'],
+                'user' => $user1, // Liaison avec l'utilisateur 1
             ],
             [
                 'title' => 'Petit studio près de la gare',
@@ -151,7 +262,8 @@ class AppFixtures extends Fixture
                 'maxOccupants' => '1',
                 'image' =>  'Petitstudio.jpg',
                 'category' => 'studio',
-                'amenities' => ['Cuisine', 'Chauffage', 'Télévision', 'Alarme incendie', 'Privé : patio ou balcon', 'Wifi']
+                'amenities' => ['Cuisine', 'Chauffage', 'Télévision', 'Alarme incendie', 'Privé : patio ou balcon', 'Wifi'],
+                'user' => $user3, // Liaison avec l'utilisateur 1
             ],
             [
                 'title' => 'Appartement compact en périphérie',
@@ -164,7 +276,8 @@ class AppFixtures extends Fixture
                 'maxOccupants' => '2',
                 'image' =>  'appartement_compact.jpg',
                 'category' => 'appartement',
-                'amenities' => ['Wifi', 'Cuisine', 'Espace de travail dédié', 'Parking gratuit sur place', 'Chauffage', 'Télévision']
+                'amenities' => ['Wifi', 'Cuisine', 'Espace de travail dédié', 'Parking gratuit sur place', 'Chauffage', 'Télévision'],
+                'user' => $user1, // Liaison avec l'utilisateur 1
             ],
             [
                 'title' => 'Maison de charme à Tours',
@@ -184,7 +297,8 @@ class AppFixtures extends Fixture
                     'Alarme incendie',
                     'Parking gratuit sur place',
                     'Lit bébé'
-                ]
+                ],
+                'user' => $user2, 
             ],
             [
                 'title' => 'Studio moderne à petit prix',
@@ -197,7 +311,8 @@ class AppFixtures extends Fixture
                 'maxOccupants' => '1',
                 'image' =>  'studio_moderne.jpg',
                 'category' => 'studio',
-                'amenities' => ['Cuisine', 'Chauffage', 'Wifi', 'Télévision', 'Espace de travail dédié', 'Alarme incendie']
+                'amenities' => ['Cuisine', 'Chauffage', 'Wifi', 'Télévision', 'Espace de travail dédié', 'Alarme incendie'],
+                'user' => $user3, 
             ],
                 [
                     'title' => 'Superbe appartement au centre-ville',
@@ -217,7 +332,8 @@ class AppFixtures extends Fixture
                         'Télévision',
                         'Climatisation',
                         'Bureau'
-                    ]
+                    ],
+                    'user' => $user2, 
                 ],
                 [
                     'title' => 'Charmante maison avec jardin paisible',
@@ -237,7 +353,8 @@ class AppFixtures extends Fixture
                         'Climatisation',
                         'Chauffage',
                         'Lave-linge (Gratuit) dans le bâtiment'
-                    ]
+                    ],
+                    'user' => $user5, 
                 ],
                 [
                     'title' => 'Charmant studio au cœur de Strasbourg',
@@ -257,7 +374,8 @@ class AppFixtures extends Fixture
                         'Chauffage',
                         'Espace de travail dédié',
                         'Climatisation'
-                    ]
+                    ],
+                    'user' => $user5, // Liaison avec l'utilisateur 2
                 ],
                 [
                     'title' => 'Appartement spacieux avec terrasse à Toulouse',
@@ -277,7 +395,8 @@ class AppFixtures extends Fixture
                         'Privé : patio ou balcon',
                         'Chauffage',
                         'Piscine'
-                    ]
+                    ],
+                    'user' => $user3,
                 ],
                 [
                     'title' => 'Maison traditionnelle à Colmar',
@@ -297,7 +416,8 @@ class AppFixtures extends Fixture
                         'Climatisation',
                         'Parking gratuit sur place',
                         'Alarme incendie'
-                    ]
+                    ],
+                    'user' => $user3,
                 ],
                 [
                     'title' => 'Studio calme et lumineux à Rennes',
@@ -317,7 +437,8 @@ class AppFixtures extends Fixture
                         'Chauffage',
                         'Espace de travail dédié',
                         'Alarme incendie'
-                    ]
+                    ],
+                    'user' => $user3,
                 ],
                 [
                     'title' => 'Appartement moderne avec vue sur le Rhône à Lyon',
@@ -337,7 +458,8 @@ class AppFixtures extends Fixture
                         'Espace de travail dédié',
                         'Lit bébé',
                         'Télévision'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Maison rustique avec cheminée à Grenoble',
@@ -357,7 +479,8 @@ class AppFixtures extends Fixture
                         'Barbecue',
                         'Espace de travail dédié',
                         'Parking gratuit sur place'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Studio neuf à Montpellier',
@@ -377,7 +500,8 @@ class AppFixtures extends Fixture
                         'Chauffage',
                         'Espace de travail dédié',
                         'Lave-linge (Gratuit) dans le bâtiment'
-                    ]
+                    ], 
+                    'user' => $user1,
                 ],
                 [
                     'title' => 'Appartement au bord de l’eau à Bordeaux',
@@ -397,7 +521,8 @@ class AppFixtures extends Fixture
                         'Cheminée',
                         'Espace de travail dédié',
                         'Climatisation'
-                    ]
+                    ],
+                    'user' => $user3,
                 ],
                 [
                     'title' => 'Maison familiale avec piscine à Aix-en-Provence',
@@ -417,7 +542,8 @@ class AppFixtures extends Fixture
                         'Vue sur le jardin',
                         'Barbecue',
                         'Parking gratuit sur place'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Studio cosy à Annecy',
@@ -437,7 +563,8 @@ class AppFixtures extends Fixture
                         'Climatisation',
                         'Chauffage',
                         'Barbecue'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Appartement avec balcon à Nantes',
@@ -457,7 +584,8 @@ class AppFixtures extends Fixture
                         'Wifi',
                         'Lave-linge (Gratuit) dans le bâtiment',
                         'Télévision'
-                    ]
+                    ],
+                    'user' => $user2,
                     ],
                 [
                     'title' => 'Maison de campagne avec jardin',
@@ -477,7 +605,8 @@ class AppFixtures extends Fixture
                         'Lave-linge (Gratuit) dans le bâtiment',
                         'Sèche-linge (Gratuit) dans le bâtiment',
                         'Cheminée'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Studio moderne et bien situé',
@@ -497,7 +626,8 @@ class AppFixtures extends Fixture
                         'Privé : patio ou balcon',
                         'Espace de travail dédié',
                         'Alarme incendie'
-                    ]
+                    ],
+                    'user' => $user5,
                 ],
                 [
                     'title' => 'Appartement familial avec terrasse',
@@ -517,7 +647,8 @@ class AppFixtures extends Fixture
                         'Piscine',
                         'Télévision',
                         'Espace de travail dédié'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Studio étudiant abordable',
@@ -530,7 +661,8 @@ class AppFixtures extends Fixture
                     'maxOccupants' => '1',
                     'image' =>  'studio_etudiant.jpg',
                     'category' => 'studio',
-                    'amenities' => ['Wifi', 'Chauffage', 'Cuisine', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment', 'Alarme incendie']
+                    'amenities' => ['Wifi', 'Chauffage', 'Cuisine', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment', 'Alarme incendie'],
+                    'user' => $user3,
                 ],
                 [
                     'title' => 'Appartement partagé pas cher',
@@ -543,7 +675,8 @@ class AppFixtures extends Fixture
                     'maxOccupants' => '1',
                     'image' =>  'appartement_partage.jpg',
                     'category' => 'appartement',
-                    'amenities' => ['Wifi', 'Cuisine', 'Climatisation', 'Télévision', 'Chauffage', 'Lave-linge (Gratuit) dans le bâtiment']
+                    'amenities' => ['Wifi', 'Cuisine', 'Climatisation', 'Télévision', 'Chauffage', 'Lave-linge (Gratuit) dans le bâtiment'],
+                    'user' => $user5,
                 ],
                 [
                     'title' => 'Studio cosy et pas cher',
@@ -556,7 +689,8 @@ class AppFixtures extends Fixture
                     'maxOccupants' => '1',
                     'image' =>  'studio_cosy.jpg',
                     'category' => 'studio',
-                    'amenities' => ['Wifi', 'Chauffage', 'Cuisine', 'Télévision', 'Barbecue', 'Espace de travail dédié']
+                    'amenities' => ['Wifi', 'Chauffage', 'Cuisine', 'Télévision', 'Barbecue', 'Espace de travail dédié'],
+                    'user' => $user1,
                 ],
                 [
                     'title' => 'Petite maison en campagne',
@@ -569,7 +703,8 @@ class AppFixtures extends Fixture
                     'maxOccupants' => '2',
                     'image' =>  'maison_campagne.jpg',
                     'category' => 'maison',
-                    'amenities' => ['Wifi', 'Chauffage', 'Cuisine', 'Privé : patio ou balcon', 'Télévision', 'Parking gratuit sur place']
+                    'amenities' => ['Wifi', 'Chauffage', 'Cuisine', 'Privé : patio ou balcon', 'Télévision', 'Parking gratuit sur place'],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Chambre économique au centre-ville',
@@ -582,7 +717,8 @@ class AppFixtures extends Fixture
                     'maxOccupants' => '1',
                     'image' =>  'chambre_economique.jpg',
                     'category' => 'appartement',
-                    'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment', 'Alarme incendie']
+                    'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment', 'Alarme incendie'],
+                    'user' => $user1,
                 ],
                 [
                     'title' => 'Loft en centre historique',
@@ -602,7 +738,8 @@ class AppFixtures extends Fixture
                         'Climatisation',
                         'Espace de travail dédié',
                         'Télévision'
-                    ]
+                    ],
+                    'user' => $user2,
                 ],
                 [
                     'title' => 'Studio cosy au coeur de Lille',
@@ -622,7 +759,8 @@ class AppFixtures extends Fixture
                         'Cuisine',
                         'Télévision',
                         'Espace de travail dédié'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Petite maison avec terrasse à Rouen',
@@ -642,7 +780,8 @@ class AppFixtures extends Fixture
                         'Lave-linge (Gratuit) dans le bâtiment',
                         'Télévision',
                         'Alarme incendie'
-                    ]
+                    ],
+                    'user' => $user1,
                 ],
                 [
                     'title' => 'Appartement économique à Nancy',
@@ -662,7 +801,8 @@ class AppFixtures extends Fixture
                         'Cheminée',
                         'Bureau',
                         'Barbecue'
-                    ]
+                    ],
+                    'user' => $user5,
                 ],
                 [
                     'title' => 'Studio lumineux proche du port de Brest',
@@ -682,7 +822,8 @@ class AppFixtures extends Fixture
                         'Cuisine',
                         'Espace de travail dédié',
                         'Privé : patio ou balcon'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Appartement partagé dans un quartier calme à Dijon',
@@ -702,7 +843,8 @@ class AppFixtures extends Fixture
                         'Sèche-linge (Gratuit) dans le bâtiment',
                         'Lit bébé',
                         'Salle de sport'
-                    ]
+                    ],
+                    'user' => $user4,
                     ],
                     [
                         'title' => 'Studio moderne proche du centre à Nantes',
@@ -722,7 +864,8 @@ class AppFixtures extends Fixture
                             'Cuisine',
                             'Télévision',
                             'Climatisation'
-                        ]
+                        ],
+                        'user' => $user3,
                     ],
                     [
                         'title' => 'Appartement lumineux dans le vieux Nice',
@@ -742,7 +885,8 @@ class AppFixtures extends Fixture
                             'Cuisine',
                             'Vue sur le jardin',
                             'Privé : patio ou balcon'
-                        ]
+                        ],
+                        'user' => $user3,
                     ],
                     [
                         'title' => 'Maison cosy avec jardin à Montpellier',
@@ -762,7 +906,8 @@ class AppFixtures extends Fixture
                             'Lave-linge (Gratuit) dans le bâtiment',
                             'Alarme incendie',
                             'Climatisation'
-                        ]
+                        ],
+                        'user' => $user5,
                     ],
                     [
                         'title' => 'Studio économique près de la gare à Marseille',
@@ -782,7 +927,8 @@ class AppFixtures extends Fixture
                             'Espace de travail dédié',
                             'Sèche-linge (Gratuit) dans le bâtiment',
                             'Chauffage'
-                        ]
+                        ],
+                        'user' => $user3,
                     ],
                     [
                         'title' => 'Appartement spacieux à Strasbourg',
@@ -802,7 +948,8 @@ class AppFixtures extends Fixture
                             'Cuisine',
                             'Climatisation',
                             'Lit bébé'
-                        ]
+                        ],
+                        'user' => $user3,
                     ],
                     [
                         'title' => 'Maison traditionnelle à Toulouse',
@@ -822,7 +969,8 @@ class AppFixtures extends Fixture
                             'Télévision',
                             'Alarme incendie',
                             'Bureau'
-                        ]
+                        ],
+                        'user' => $user3,
                     ],
                     [
                         'title' => 'Studio pratique à Lyon',
@@ -842,7 +990,8 @@ class AppFixtures extends Fixture
                             'Bureau',
                             'Espace de travail dédié',
                             'Télévision'
-                        ]
+                        ],
+                        'user' => $user2,
                     ],
                     [
                         'title' => 'Appartement moderne à Bordeaux',
@@ -862,7 +1011,8 @@ class AppFixtures extends Fixture
                             'Cheminée',
                             'Barbecue',
                             'Vue sur le jardin'
-                        ]
+                        ],
+                        'user' => $user1,
                     ],
                     [
                         'title' => 'Maison de village à Avignon',
@@ -882,7 +1032,8 @@ class AppFixtures extends Fixture
                             'Lave-linge (Gratuit) dans le bâtiment',
                             'Sèche-linge (Gratuit) dans le bâtiment',
                             'Télévision'
-                        ]
+                        ],
+                        'user' => $user1,
                     ],
                     [
                         'title' => 'Studio pratique à Reims',
@@ -902,7 +1053,8 @@ class AppFixtures extends Fixture
                             'Climatisation',
                             'Espace de travail dédié',
                             'Lit bébé'
-                        ]
+                        ],
+                        'user' => $user1,
                         ],
                 [
                     'title' => 'Maison avec vue sur la rivière',
@@ -922,7 +1074,8 @@ class AppFixtures extends Fixture
                         'Climatisation',
                         'Cheminée',
                         'Espace de travail dédié'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Studio en plein cœur du quartier latin',
@@ -942,7 +1095,8 @@ class AppFixtures extends Fixture
                         'Alarme incendie',
                         'Chauffage',
                         'Espace de travail dédié'
-                    ]
+                    ],
+                    'user' => $user1,
                 ],
                 [
                     'title' => 'Appartement moderne avec balcon',
@@ -962,7 +1116,8 @@ class AppFixtures extends Fixture
                         'Climatisation',
                         'Télévision',
                         'Lit bébé'
-                    ]
+                    ],
+                    'user' => $user1,
                 ],
                 [
                     'title' => 'Maison proche des commodités',
@@ -982,7 +1137,8 @@ class AppFixtures extends Fixture
                         'Piscine',
                         'Télévision',
                         'Lave-linge (Gratuit) dans le bâtiment'
-                    ]
+                    ],
+                    'user' => $user1,
                 ],
                 [
                     'title' => 'Studio rénové avec kitchenette',
@@ -1002,7 +1158,8 @@ class AppFixtures extends Fixture
                         'Privé : patio ou balcon',
                         'Alarme incendie',
                         'Espace de travail dédié'
-                    ]
+                    ],
+                    'user' => $user5,
                 ],
                 [
                     'title' => 'Appartement moderne avec balcon à Lille',
@@ -1022,7 +1179,8 @@ class AppFixtures extends Fixture
                         'Vue sur le jardin',
                         'Parking gratuit sur place',
                         'Cheminée'
-                    ]
+                    ],
+                    'user' => $user2,
                 ],
                 [
                     'title' => 'Studio fonctionnel à Grenoble',
@@ -1042,7 +1200,8 @@ class AppFixtures extends Fixture
                         'Chauffage',
                         'Lave-linge (Gratuit) dans le bâtiment',
                         'Télévision'
-                    ]
+                    ],
+                    'user' => $user4,
                 ],
                 [
                     'title' => 'Maison avec jardin à La Rochelle',
@@ -1062,7 +1221,8 @@ class AppFixtures extends Fixture
                         'Piscine',
                         'Alarme incendie',
                         'Télévision'
-                    ]
+                    ],
+                    'user' => $user5,
                 ],
                 [
                     'title' => 'Appartement cosy à Clermont-Ferrand',
@@ -1082,7 +1242,8 @@ class AppFixtures extends Fixture
                         'Lit bébé',
                         'Privé : patio ou balcon',
                         'Espace de travail dédié'
-                    ]
+                    ],
+                    'user' => $user1,
                 ],
                 [
                     'title' => 'Studio neuf à Pau',
@@ -1102,7 +1263,8 @@ class AppFixtures extends Fixture
                         'Chauffage',
                         'Cuisine',
                         'Bureau'
-                    ]
+                    ],
+                    'user' => $user3,
                 ],
                 
                 [
@@ -1123,7 +1285,8 @@ class AppFixtures extends Fixture
                         'Cheminée',
                         'Barbecue',
                         'Alarme incendie'
-                    ]
+                    ],
+                    'user' => $user3,
                 ],
                 [
                     'title' => 'Studio cosy à Dijon',
@@ -1143,7 +1306,8 @@ class AppFixtures extends Fixture
                         'Espace de travail dédié',
                         'Climatisation',
                         'Chauffage'
-                    ]
+                    ],
+                    'user' => $user3,
                 ],
                 [
                     'title' => 'Maison en pierre à Perpignan',
@@ -1163,7 +1327,8 @@ class AppFixtures extends Fixture
                         'Cheminée',
                         'Piscine',
                         'Alarme incendie'
-                    ]
+                    ],
+                    'user' => $user1,
                 ],
                 [
                     'title' => 'Appartement lumineux à Angers',
@@ -1183,7 +1348,8 @@ class AppFixtures extends Fixture
                         'Télévision',
                         'Privé : patio ou balcon',
                         'Lit bébé'
-                    ]
+                    ],
+                    'user' => $user1,
                     ],
                 [
                     'title' => 'Appartement proche du parc',
@@ -1203,7 +1369,8 @@ class AppFixtures extends Fixture
                         'Télévision',
                         'Espace de travail dédié',
                         'Piscine'
-                    ]
+                    ],
+                    'user' => $user1
                 ],
                 
                     [
@@ -1217,8 +1384,10 @@ class AppFixtures extends Fixture
                         'maxOccupants' => '6',
                         'image' =>  'maison2.jpg',
                         'category' => 'maison',
-                        'amenities' => ['Piscine', 'Barbecue', 'Climatisation', 'Parking gratuit sur place', 'Vue sur le jardin', 'Cheminée']
+                        'amenities' => ['Piscine', 'Barbecue', 'Climatisation', 'Parking gratuit sur place', 'Vue sur le jardin', 'Cheminée'],
+                        'user' => $user3
                     ],
+                    
                     [
                         'title' => 'Studio cosy au cœur de la ville',
                         'description' => 'Petit studio moderne et fonctionnel, idéal pour un séjour en solo ou en couple.',
@@ -1231,6 +1400,8 @@ class AppFixtures extends Fixture
                         'image' =>  'studio2.jpg',
                         'category' => 'studio',
                         'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment', 'Télévision']
+                        ,
+                        'user' => $user5
                     ],
                     [
                         'title' => 'Appartement avec terrasse et vue imprenable',
@@ -1244,6 +1415,8 @@ class AppFixtures extends Fixture
                         'image' =>  'appartement3.jpg',
                         'category' => 'appartement',
                         'amenities' => ['Climatisation', 'Parking gratuit sur place', 'Salle de sport', 'Jacuzzi', 'Vue sur le jardin', 'Cuisine']
+                        ,
+                        'user' => $user3,
                     ],
                     [
                         'title' => 'Maison familiale avec jardin',
@@ -1256,7 +1429,8 @@ class AppFixtures extends Fixture
                         'maxOccupants' => '8',
                         'image' =>  'maison3.jpg',
                         'category' => 'maison',
-                        'amenities' => ['Barbecue', 'Piscine', 'Climatisation', 'Lit bébé', 'Alarme incendie', 'Parking gratuit sur place']
+                        'amenities' => ['Barbecue', 'Piscine', 'Climatisation', 'Lit bébé', 'Alarme incendie', 'Parking gratuit sur place'],
+                        'user' => $user3,
                     ],
                     [
                         'title' => 'Studio moderne avec balcon',
@@ -1269,7 +1443,8 @@ class AppFixtures extends Fixture
                         'maxOccupants' => '2',
                         'image' =>  'studio3.jpg',
                         'category' => 'studio',
-                        'amenities' => ['Cuisine', 'Climatisation', 'Espace de travail dédié', 'Télévision', 'Privé : patio ou balcon', 'Chauffage']
+                        'amenities' => ['Cuisine', 'Climatisation', 'Espace de travail dédié', 'Télévision', 'Privé : patio ou balcon', 'Chauffage'],
+                        'user' => $user3,
                     ],
 
                     [
@@ -1283,7 +1458,8 @@ class AppFixtures extends Fixture
                         'maxOccupants' => '2',
                         'image' =>  'appartement_commerce.jpg',
                         'category' => 'appartement',
-                        'amenities' => ['Wifi', 'Cuisine', 'Climatisation', 'Chauffage', 'Télévision', 'Barbecue']
+                        'amenities' => ['Wifi', 'Cuisine', 'Climatisation', 'Chauffage', 'Télévision', 'Barbecue'],
+                        'user' => $user3,
                     ],
                     [
                         'title' => 'Studio moderne et fonctionnel',
@@ -1296,7 +1472,8 @@ class AppFixtures extends Fixture
                         'maxOccupants' => '1',
                         'image' =>  'studio_fonctionnel.jpg',
                         'category' => 'studio',
-                        'amenities' => ['Cuisine', 'Climatisation', 'Wifi', 'Chauffage', 'Espace de travail dédié', 'Piscine']
+                        'amenities' => ['Cuisine', 'Climatisation', 'Wifi', 'Chauffage', 'Espace de travail dédié', 'Piscine'],
+                        'user' => $user3,
                     ],
                     [
                         'title' => 'Maison cosy en périphérie',
@@ -1309,7 +1486,8 @@ class AppFixtures extends Fixture
                         'maxOccupants' => '4',
                         'image' =>  'maison_cosy.jpg',
                         'category' => 'maison',
-                        'amenities' => ['Wifi', 'Climatisation', 'Cuisine', 'Privé : patio ou balcon', 'Télévision', 'Parking gratuit sur place']
+                        'amenities' => ['Wifi', 'Climatisation', 'Cuisine', 'Privé : patio ou balcon', 'Télévision', 'Parking gratuit sur place'],
+                        'user' => $user1,
                     ],
                     [
                         'title' => 'Appartement rénové avec balcon',
@@ -1322,7 +1500,8 @@ class AppFixtures extends Fixture
                         'maxOccupants' => '3',
                         'image' =>  'appartement_balcon.jpg',
                         'category' => 'appartement',
-                        'amenities' => ['Cuisine', 'Climatisation', 'Barbecue', 'Télévision', 'Chauffage', 'Alarme incendie']
+                        'amenities' => ['Cuisine', 'Climatisation', 'Barbecue', 'Télévision', 'Chauffage', 'Alarme incendie'],
+                        'user' => $user2,
                     ],
                     [
                         'title' => 'Studio pratique en centre-ville',
@@ -1335,7 +1514,8 @@ class AppFixtures extends Fixture
                         'maxOccupants' => '1',
                         'image' =>  'studio_centreville.jpg',
                         'category' => 'studio',
-                        'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Télévision', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment']
+                        'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Télévision', 'Espace de travail dédié', 'Lave-linge (Gratuit) dans le bâtiment'],
+                        'user' => $user4,
                     ],
                         [
                             'title' => 'Maison en bord de mer',
@@ -1348,7 +1528,8 @@ class AppFixtures extends Fixture
                             'maxOccupants' => '8',
                             'image' =>  'maison_bord_mer.jpg',
                             'category' => 'maison',
-                            'amenities' => ['Vue sur le jardin', 'Parking gratuit sur place', 'Climatisation', 'Piscine', 'Jacuzzi', 'Cheminée']
+                            'amenities' => ['Vue sur le jardin', 'Parking gratuit sur place', 'Climatisation', 'Piscine', 'Jacuzzi', 'Cheminée'],
+                            'user' => $user5,
                         ],
                         [
                             'title' => 'Appartement duplex moderne',
@@ -1361,7 +1542,8 @@ class AppFixtures extends Fixture
                             'maxOccupants' => '6',
                             'image' =>  'duplex_nice.jpg',
                             'category' => 'appartement',
-                            'amenities' => ['Wifi', 'Salle de sport', 'Télévision', 'Espace de travail dédié', 'Climatisation', 'Cuisine']
+                            'amenities' => ['Wifi', 'Salle de sport', 'Télévision', 'Espace de travail dédié', 'Climatisation', 'Cuisine'],
+                            'user' => $user1,
                         ],
                         [
                             'title' => 'Studio lumineux dans quartier calme',
@@ -1374,7 +1556,8 @@ class AppFixtures extends Fixture
                             'maxOccupants' => '1',
                             'image' =>  'studio_calme.jpg',
                             'category' => 'studio',
-                            'amenities' => ['Cuisine', 'Climatisation', 'Chauffage', 'Privé : patio ou balcon', 'Alarme incendie', 'Télévision']
+                            'amenities' => ['Cuisine', 'Climatisation', 'Chauffage', 'Privé : patio ou balcon', 'Alarme incendie', 'Télévision'],
+                            'user' => $user3,
                         ],
                         [
                             'title' => 'Maison avec grande terrasse et jardin',
@@ -1388,6 +1571,8 @@ class AppFixtures extends Fixture
                             'image' =>  'maison_terrasse.jpg',
                             'category' => 'maison',
                             'amenities' => ['Barbecue', 'Piscine', 'Climatisation', 'Lit bébé', 'Station de recharge pour véhicules électriques', 'Parking gratuit sur place']
+                            ,
+                        'user' => $user1,
                         ],
                         [
                             'title' => 'Studio élégant avec accès rapide au centre',
@@ -1400,18 +1585,11 @@ class AppFixtures extends Fixture
                             'maxOccupants' => '2',
                             'image' =>  'studio_elegant.jpg',
                             'category' => 'studio',
-                            'amenities' => ['Cuisine', 'Télévision', 'Wifi', 'Espace de travail dédié', 'Chauffage', 'Climatisation']
+                            'amenities' => ['Cuisine', 'Télévision', 'Wifi', 'Espace de travail dédié', 'Chauffage', 'Climatisation'],
+                            'user' => $user2,
                         ]
                     ];
-                    
-                
-                
-            
-            
-   
-            // Ajoutez d'autres annonces ici avec leurs amenities
-
-        // Création des annonces avec les images, catégories et amenities
+          
         foreach ($annoncesData as $index => $data) {
             $annonce = new Annonce();
             $annonce->setTitle($data['title'])
@@ -1424,38 +1602,33 @@ class AppFixtures extends Fixture
                     ->setMaxOccupants($data['maxOccupants'])
                     ->setCreatedAt(new \DateTimeImmutable())
                     ->setUpdatedAt(new \DateTimeImmutable());
-        
-            // Créer une image principale pour l'annonce
+
             $image = new Image();
             $image->setName($data['image']);
             $annonce->setImage($image);
-        
-            // Associer la catégorie
-            $annonce->setCategory($categories[$data['category']]);
-        
-              // Ajouter 6 images uniques à `ImageList`
-            for ($i = 1; $i <= 6; $i++) {
-             $imageList = new \App\Entity\ImageList();
-             // Générer un chemin unique pour chaque image
-            $uniqueImageName = "image_{$index}_{$i}.jpg";
-            $imageList->setName($uniqueImageName);
-            $imageList->setAnnonce($annonce);
 
-            $manager->persist($imageList);
-        }
-        
-            // Associer les amenities
+            $annonce->setCategory($categories[$data['category']]);
+
             foreach ($data['amenities'] as $amenityName) {
                 $annonce->addAmenity($amenities[$amenityName]);
             }
-        
-            // Persister l'image principale et l'annonce
+
+            // Associer l'utilisateur spécifique
+             $annonce->setUser($data['user']);
+
             $manager->persist($image);
             $manager->persist($annonce);
+
+            for ($i = 1; $i <= 6; $i++) {
+                $imageList = new ImageList();
+                $imageList->setName("image_{$index}_{$i}.jpg");
+                $imageList->setAnnonce($annonce);
+                $manager->persist($imageList);
+            }
         }
-        
-        // Enregistrer en base de données
+
         $manager->flush();
-    
-    }}
+    }
+}
+
     

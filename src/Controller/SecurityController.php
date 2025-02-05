@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -13,8 +14,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SecurityController extends AbstractController
 {
+
     #[Route('/api/register', name: 'api_register', methods: ['POST'])]
-public function register(
+    public function register(
     Request $request,
     UserPasswordHasherInterface $passwordHasher,
     EntityManagerInterface $entityManager,
@@ -59,17 +61,6 @@ $user->setBirthdate($birthdate);
     return $this->json(['message' => 'User registered successfully!'], JsonResponse::HTTP_CREATED);
 }
 
-#[Route('/api/users/me', name: 'get_user_details', methods: ['GET'])]
-public function getUserDetails(): JsonResponse
-{
-    $user = $this->getUser();
-
-    if (!$user instanceof User) {
-        return $this->json(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
-    }
-
-    return $this->json($user, JsonResponse::HTTP_OK, [], ['groups' => ['user:read']]);
-}
 
 
 #[Route('/api/users/{id}', name: 'update_user', methods: ['PUT'])]

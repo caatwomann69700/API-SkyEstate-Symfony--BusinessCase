@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
@@ -8,18 +9,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['images:read']],
+    normalizationContext: ['groups' => ['image:read']],
+    denormalizationContext: ['groups' => ['image:write']]
 )]
 class Image
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['images:read', 'annonces:read', 'category:read', 'amenities:read'])]
+    #[Groups(['image:read', 'annonce:read', 'category:read', 'amenity:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['images:read', 'images:write', 'annonces:read', 'category:read', 'amenities:read'])]
+    #[Groups(['image:read', 'image:write', 'annonce:read', 'category:read', 'amenity:read'])]
     private ?string $name = null;
 
     #[ORM\OneToOne(mappedBy: 'image', targetEntity: Annonce::class)]
@@ -28,7 +30,7 @@ class Image
     #[ORM\OneToOne(mappedBy: 'image', targetEntity: Category::class)]
     private ?Category $category = null;
 
-    #[ORM\OneToOne(mappedBy: 'icon', targetEntity: Amenity::class)] // Relation OneToOne avec Amenity
+    #[ORM\OneToOne(mappedBy: 'icon', targetEntity: Amenity::class)]
     private ?Amenity $amenity = null;
 
     public function getId(): ?int
@@ -55,6 +57,12 @@ class Image
     public function setAnnonce(?Annonce $annonce): self
     {
         $this->annonce = $annonce;
+
+        // Assurer la relation bidirectionnelle
+        if ($annonce !== null && $annonce->getImage() !== $this) {
+            $annonce->setImage($this);
+        }
+
         return $this;
     }
 
@@ -66,6 +74,12 @@ class Image
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        // Assurer la relation bidirectionnelle
+        if ($category !== null && $category->getImage() !== $this) {
+            $category->setImage($this);
+        }
+
         return $this;
     }
 
@@ -77,6 +91,12 @@ class Image
     public function setAmenity(?Amenity $amenity): self
     {
         $this->amenity = $amenity;
+
+        // Assurer la relation bidirectionnelle
+        if ($amenity !== null && $amenity->getIcon() !== $this) {
+            $amenity->setIcon($this);
+        }
+
         return $this;
     }
 }

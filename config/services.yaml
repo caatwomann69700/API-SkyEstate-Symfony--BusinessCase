@@ -12,6 +12,12 @@ services:
     Symfony\Component\Validator\Validator\ValidatorInterface:
         alias: 'debug.validator'
         public: true
+        
+    App\EventListener\JWTSuccessListener:
+        arguments: []
+        public: true
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
 
     Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface:
         alias: 'security.user_password_hasher'

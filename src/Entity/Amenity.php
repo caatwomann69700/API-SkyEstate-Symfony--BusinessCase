@@ -38,9 +38,10 @@ class Amenity
     private ?string $name = null;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)] // Une image est obligatoire pour chaque amenity
-    #[Groups(['amenity:read', 'amenity:write'])]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['amenity:read', 'amenity:write'])]  // ✅ Ajout du groupe ici !
     private ?Image $icon = null;
+
 
     #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'amenities', fetch: 'LAZY')]
     #[Groups(['amenity:relation_read'])]
@@ -77,7 +78,6 @@ class Amenity
         $this->icon = $icon;
         return $this;
     }
-
     /**
      * @return Collection<int, Annonce>
      */
