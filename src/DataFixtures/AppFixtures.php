@@ -1590,45 +1590,49 @@ foreach ($amenitiesData as $data) {
                         ]
                     ];
           
-        foreach ($annoncesData as $index => $data) {
-            $annonce = new Annonce();
-            $annonce->setTitle($data['title'])
-                    ->setDescription($data['description'])
-                    ->setPrice($data['price'])
-                    ->setSurface($data['surface'])
-                    ->setCity($data['city'])
-                    ->setLocation($data['location'])
-                    ->setPostalCode($data['postalcode'])
-                    ->setMaxOccupants($data['maxOccupants'])
-                    ->setCreatedAt(new \DateTimeImmutable())
-                    ->setUpdatedAt(new \DateTimeImmutable());
-
-            $image = new Image();
-            $image->setName($data['image']);
-            $annonce->setImage($image);
-
-            $annonce->setCategory($categories[$data['category']]);
-
-            foreach ($data['amenities'] as $amenityName) {
-                $annonce->addAmenity($amenities[$amenityName]);
+                    foreach ($annoncesData as $index => $data) {
+                        $annonce = new Annonce();
+                        $annonce->setTitle($data['title'])
+                                ->setDescription($data['description'])
+                                ->setPrice($data['price'])
+                                ->setSurface($data['surface'])
+                                ->setCity($data['city'])
+                                ->setLocation($data['location'])
+                                ->setPostalCode($data['postalcode'])
+                                ->setMaxOccupants($data['maxOccupants'])
+                                ->setCreatedAt(new \DateTimeImmutable())
+                                ->setUpdatedAt(new \DateTimeImmutable());
+            
+                        // ✅ Créer une image principale
+                        $image = new Image();
+                        $image->setName($data['image']);
+                        $manager->persist($image);
+                        $annonce->setImage($image);
+            
+                        // ✅ Associer une catégorie
+                        $annonce->setCategory($categories[$data['category']]);
+            
+                        // ✅ Associer des équipements
+                        foreach ($data['amenities'] as $amenityName) {
+                            $annonce->addAmenity($amenities[$amenityName]);
+                        }
+            
+                        // ✅ Associer l'utilisateur
+                        $annonce->setUser($data['user']);
+            
+                        $manager->persist($annonce);
+            
+                        // ✅ Ajouter plusieurs images secondaires
+                        for ($i = 1; $i <= 6; $i++) {  // ✅ Génère 6 images au lieu de 3
+                            $imageList = new ImageList();
+                            $imageList->setName("image_{$index}_{$i}.jpg");
+                            $imageList->setAnnonce($annonce);
+                            $manager->persist($imageList);  // ✅ Correction de l'erreur de frappe (manag er -> manager)
+                        }
+                        
+                    }
+            
+                    $manager->flush();
+                }
             }
-
-            // Associer l'utilisateur spécifique
-             $annonce->setUser($data['user']);
-
-            $manager->persist($image);
-            $manager->persist($annonce);
-
-            for ($i = 1; $i <= 6; $i++) {
-                $imageList = new ImageList();
-                $imageList->setName("image_{$index}_{$i}.jpg");
-                $imageList->setAnnonce($annonce);
-                $manager->persist($imageList);
-            }
-        }
-
-        $manager->flush();
-    }
-}
-
     

@@ -93,10 +93,12 @@ class Annonce
     private ?\DateTimeImmutable $updatedAt = null;
 
     // Image principale de l'annonce
+    // Image principale de l'annonce
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'annonces:write'])]  // 🔥 Ajout du bon group
     private ?Image $image = null;
+
 
     // Catégorie de l'annonce
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'annonces')]
