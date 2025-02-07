@@ -224,6 +224,27 @@ foreach ($amenitiesData as $data) {
         // Données d'exemple pour les annonces et leurs images
         $annoncesData = [
             [
+                'title' => 'Maison traditionnelle à Colmar',
+                'description' => 'Maison pittoresque avec un grand jardin, idéale pour des vacances en famille.',
+                'price' => '980.00',
+                'surface' => '120m²',
+                'city' => 'Colmar',
+                'postalcode' => '68000',
+                'location' => '25 Rue des Tanneurs',
+                'maxOccupants' => '6',
+                'image' =>  'maison-colmar.jpg',
+                'category' => 'maison',
+                'amenities' => [
+                    'Wifi',
+                    'Cuisine',
+                    'Barbecue',
+                    'Climatisation',
+                    'Parking gratuit sur place',
+                    'Alarme incendie'
+                ],
+                'user' => $user3,
+            ],
+            [
                 'title' => 'Studio cosy en centre-ville',
                 'description' => 'Un charmant studio équipé, parfait pour un étudiant ou un jeune actif.',
                 'price' => '450.00',
@@ -260,7 +281,7 @@ foreach ($amenitiesData as $data) {
                 'postalcode' => '67000',
                 'location' => '22 rue du Maire Kuss',
                 'maxOccupants' => '1',
-                'image' =>  'Petitstudio.jpg',
+                'image' =>  'Petitstudio.png',
                 'category' => 'studio',
                 'amenities' => ['Cuisine', 'Chauffage', 'Télévision', 'Alarme incendie', 'Privé : patio ou balcon', 'Wifi'],
                 'user' => $user3, // Liaison avec l'utilisateur 1
@@ -398,27 +419,7 @@ foreach ($amenitiesData as $data) {
                     ],
                     'user' => $user3,
                 ],
-                [
-                    'title' => 'Maison traditionnelle à Colmar',
-                    'description' => 'Maison pittoresque avec un grand jardin, idéale pour des vacances en famille.',
-                    'price' => '980.00',
-                    'surface' => '120m²',
-                    'city' => 'Colmar',
-                    'postalcode' => '68000',
-                    'location' => '25 Rue des Tanneurs',
-                    'maxOccupants' => '6',
-                    'image' =>  'maison-colmar.jpg',
-                    'category' => 'maison',
-                    'amenities' => [
-                        'Wifi',
-                        'Cuisine',
-                        'Barbecue',
-                        'Climatisation',
-                        'Parking gratuit sur place',
-                        'Alarme incendie'
-                    ],
-                    'user' => $user3,
-                ],
+                
                 [
                     'title' => 'Studio calme et lumineux à Rennes',
                     'description' => 'Studio confortable dans une résidence récente, proche des commerces.',

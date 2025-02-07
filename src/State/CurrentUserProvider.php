@@ -20,19 +20,21 @@ class CurrentUserProvider implements ProviderInterface
     }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
-    {
-        $user = $this->security->getUser();
+{
+    $user = $this->security->getUser();
+    
+    // 🔍 Log les détails du token reçu
+    $this->logger->info("CurrentUserProvider: Vérification utilisateur", [
+        'user' => $user ? $user->getEmail() : 'Aucun utilisateur trouvé',
+        'roles' => $user ? $user->getRoles() : [],
+    ]);
 
-        // Log l'utilisateur récupéré
-        $this->logger->info('CurrentUserProvider: Utilisateur récupéré', [
-            'user' => $user ? $user->getEmail() : 'Aucun utilisateur trouvé'
-        ]);
-
-        if (!$user instanceof User) {
-            return null; // Évite de lancer une erreur 500
-        }
-        
-
-        return $user;
+    if (!$user instanceof User) {
+        $this->logger->warning("⚠️ Aucun utilisateur connecté !");
+        return null;
     }
+
+    return $user;
+}
+
 }
