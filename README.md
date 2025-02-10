@@ -1,4 +1,4 @@
-# The Cohort-Project "API Restfull" Symfony CLI
+# Sky Estate-Project "API Restfull" Symfony CLI
 
 ## Table des matières
 1. [Introduction](https://github.com/caatwomann69700/Brace-Armchair-API---Symfony-Project/tree/main?tab=readme-ov-file#introduction)
@@ -13,12 +13,11 @@
 10. [L'integration de l'API Plateform](https://github.com/caatwomann69700/Brace-Armchair-API---Symfony-Project/tree/main?tab=readme-ov-file#introduction)
 
 ## Introduction
-Colivio_API est une application back-end que j'ai développée avec le framework Symfony en vesrion 6.4 sans l'utilisation du webapp.
+Sky Estate est une application back-end que j'ai développée avec le framework Symfony en vesrion 6.4 sans l'utilisation du webapp.
 permettant de gérer des annonces, utilisateurs, catégories,commentaires, reservations, images, imageslistes et equipements. 
 Je l'ai conçue pour être utilisée comme API RESTful pour ensuite l'integrer dans une application angular coté front-end.
 Au sein de cette API, j'ai utiliser API Platform pour la création et la gestion des points de terminaison API, avec une sécurisation via JWT ainsi que les groupes de serialisations. 
 ## Les Fonctionnalités 
-dgdgd
 ## L'installation 
 ### Prérequis
 + PHP 8.1 ou plus 
