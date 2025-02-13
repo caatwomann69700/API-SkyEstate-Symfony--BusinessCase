@@ -23,13 +23,13 @@ use App\Entity\Image;
 )]
 
 #[ApiFilter(SearchFilter::class, properties: [
-    'title' => 'partial',       // Recherche partielle dans le titre
-    'description' => 'partial', // Recherche partielle dans la description
-    'city' => 'exact',          // Recherche exacte par ville
-    'postalCode' => 'exact',    // Recherche exacte par code postal
-    'price' => 'exact',         // Recherche exacte ou range (selon le front)
-    'category.name' => 'exact', // Recherche par catégorie
-    'maxOccupants' => 'exact',  // Recherche par nombre d'occupants (ajouté)
+    'title' => 'partial',       
+    'description' => 'partial', 
+    'city' => 'exact',          
+    'postalCode' => 'exact',    
+    'price' => 'exact',         
+    'category.name' => 'exact', 
+    'maxOccupants' => 'exact',  
 ])]
 
 #[ApiFilter(RangeFilter::class, properties: ['price'])]
@@ -87,16 +87,16 @@ class Annonce
     #[Groups(['annonces:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    // Dernière date de mise à jour (lecture seule)
+    // Dernière date de mise à jour 
     #[ORM\Column]
     #[Groups(['annonces:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    // Image principale de l'annonce
+    
     // Image principale de l'annonce
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
-    #[Groups(['annonces:read', 'annonces:write'])]  // 🔥 Ajout du bon group
+    #[Groups(['annonces:read', 'annonces:write'])]  
     private ?Image $image = null;
 
 
@@ -135,7 +135,7 @@ class Annonce
         $this->reservations = new ArrayCollection();
         $this->amenities = new ArrayCollection();
         $this->imagesList = new ArrayCollection();
-        $this->users = new ArrayCollection(); // Initialiser la collection des utilisateurs
+        $this->users = new ArrayCollection(); 
     }
     
     // Getter pour les utilisateurs

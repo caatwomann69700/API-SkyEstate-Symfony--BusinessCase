@@ -39,7 +39,7 @@ class Amenity
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['amenity:read', 'amenity:write'])]  // ✅ Ajout du groupe ici !
+    #[Groups(['amenity:read', 'amenity:write'])]  
     private ?Image $icon = null;
 
 

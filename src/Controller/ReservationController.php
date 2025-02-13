@@ -32,7 +32,7 @@ class ReservationController extends AbstractController
         $reservation = new Reservation();
         $reservation->setStartDate(new \DateTime($data['start_date']));
         $reservation->setEndDate(new \DateTime($data['end_date']));
-        $reservation->setStatus('confirmed'); // Le statut par défaut de la réservation
+        $reservation->setStatus('confirmed'); 
         $reservation->setTotalAmount($data['total_amount']);
         $reservation->setAnnonce($annonce);
         $reservation->setCreatedAt(new \DateTime());

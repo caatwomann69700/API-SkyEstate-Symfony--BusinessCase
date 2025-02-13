@@ -71,7 +71,7 @@ class Reservation
     public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTime();
-        $this->updatedAt = $this->createdAt; // Initialiser updatedAt avec createdAt lors de la création
+        $this->updatedAt = $this->createdAt; 
     }
 
     #[ORM\PreUpdate]

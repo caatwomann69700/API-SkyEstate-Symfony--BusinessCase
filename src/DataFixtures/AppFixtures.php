@@ -23,12 +23,12 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-            // Initialiser $users comme un tableau vide
+            
         $users = [];
 
         // Création de l'utilisateur admin
         $admin = new User();
-        $admin->setEmail('admin@example.com') // <-- Problème ici
+        $admin->setEmail('admin@example.com') 
             ->setRoles(['ROLE_ADMIN'])
             ->setPassword($this->passwordHasher->hashPassword($admin, 'adminpassword'))
             ->setLastname('Admin')
@@ -174,9 +174,9 @@ class AppFixtures extends Fixture
             $categories[$key] = $category;
         }
 
-   // Base URL pour les icônes des amenities
+   
   
-   $iconBaseUrl = ''; // Remplace par l'URL correcte de tes icônes
+   $iconBaseUrl = ''; 
 
     $amenitiesData = [
        ['name' => 'Vue sur le jardin', 'icon' => 'garden.png'],
@@ -211,11 +211,11 @@ foreach ($amenitiesData as $data) {
 
     $amenity = new Amenity();
     $amenity->setName($data['name']);
-    $amenity->setIcon($image); // ✅ Associe une image à chaque Amenity
+    $amenity->setIcon($image); 
 
     $manager->persist($amenity);
 
-       // Sauvegarde dans le tableau pour des relations fixes si nécessaire
+       
        $amenities[$data['name']] = $amenity;
    }
 
@@ -256,7 +256,7 @@ foreach ($amenitiesData as $data) {
                 'image' =>  'Studiocosy.jpg',
                 'category' => 'studio',
                 'amenities' => ['Wifi', 'Cuisine', 'Chauffage', 'Télévision', 'Espace de travail dédié', 'Alarme incendie'],
-                'user' => $user1, // Liaison avec l'utilisateur 1
+                'user' => $user1, 
             ],
             [
                 'title' => 'Appartement fonctionnel proche des transports',
@@ -270,7 +270,7 @@ foreach ($amenitiesData as $data) {
                 'image' =>  'appartementprochedestransports.jpg',
                 'category' => 'appartement',
                 'amenities' => ['Wifi', 'Cuisine', 'Parking gratuit sur place', 'Climatisation', 'Chauffage', 'Télévision'],
-                'user' => $user1, // Liaison avec l'utilisateur 1
+                'user' => $user1, 
             ],
             [
                 'title' => 'Petit studio près de la gare',
@@ -284,7 +284,7 @@ foreach ($amenitiesData as $data) {
                 'image' =>  'Petitstudio.png',
                 'category' => 'studio',
                 'amenities' => ['Cuisine', 'Chauffage', 'Télévision', 'Alarme incendie', 'Privé : patio ou balcon', 'Wifi'],
-                'user' => $user3, // Liaison avec l'utilisateur 1
+                'user' => $user3, 
             ],
             [
                 'title' => 'Appartement compact en périphérie',
@@ -298,7 +298,7 @@ foreach ($amenitiesData as $data) {
                 'image' =>  'appartement_compact.jpg',
                 'category' => 'appartement',
                 'amenities' => ['Wifi', 'Cuisine', 'Espace de travail dédié', 'Parking gratuit sur place', 'Chauffage', 'Télévision'],
-                'user' => $user1, // Liaison avec l'utilisateur 1
+                'user' => $user1, 
             ],
             [
                 'title' => 'Maison de charme à Tours',
@@ -396,7 +396,7 @@ foreach ($amenitiesData as $data) {
                         'Espace de travail dédié',
                         'Climatisation'
                     ],
-                    'user' => $user5, // Liaison avec l'utilisateur 2
+                    'user' => $user5, 
                 ],
                 [
                     'title' => 'Appartement spacieux avec terrasse à Toulouse',
@@ -1604,31 +1604,31 @@ foreach ($amenitiesData as $data) {
                                 ->setCreatedAt(new \DateTimeImmutable())
                                 ->setUpdatedAt(new \DateTimeImmutable());
             
-                        // ✅ Créer une image principale
+                        
                         $image = new Image();
                         $image->setName($data['image']);
                         $manager->persist($image);
                         $annonce->setImage($image);
             
-                        // ✅ Associer une catégorie
+                        
                         $annonce->setCategory($categories[$data['category']]);
             
-                        // ✅ Associer des équipements
+                        
                         foreach ($data['amenities'] as $amenityName) {
                             $annonce->addAmenity($amenities[$amenityName]);
                         }
             
-                        // ✅ Associer l'utilisateur
+                        
                         $annonce->setUser($data['user']);
             
                         $manager->persist($annonce);
             
-                        // ✅ Ajouter plusieurs images secondaires
-                        for ($i = 1; $i <= 6; $i++) {  // ✅ Génère 6 images au lieu de 3
+                        
+                        for ($i = 1; $i <= 6; $i++) {  
                             $imageList = new ImageList();
                             $imageList->setName("image_{$index}_{$i}.jpg");
                             $imageList->setAnnonce($annonce);
-                            $manager->persist($imageList);  // ✅ Correction de l'erreur de frappe (manag er -> manager)
+                            $manager->persist($imageList);  
                         }
                         
                     }

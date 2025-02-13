@@ -21,10 +21,10 @@ class Image
     #[Groups(['image:read', 'annonce:read', 'category:read', 'amenity:read'])]
     private ?int $id = null;
 
-    // Nom du fichier image (ex: "image1.jpg")
-    // Nom du fichier image (ex: "image1.jpg")
+    
+    
     #[ORM\Column(length: 255)]
-    #[Groups(['image:read', 'image:write', 'annonces:read', 'category:read', 'amenity:read'])] // 🔥 Ajout du group "annonces:read"
+    #[Groups(['image:read', 'image:write', 'annonces:read', 'category:read', 'amenity:read'])] 
     private ?string $name = null;
 
 

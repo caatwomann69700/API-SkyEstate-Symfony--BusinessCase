@@ -26,8 +26,8 @@ class SecurityController extends AbstractController
 
     // Valider les données reçues
     $user = new User();
-    $user->setLastname($data['lastname'] ?? ''); // Assurez-vous que ce champ est fourni
-    $user->setFirstname($data['firstname'] ?? ''); // Assurez-vous que ce champ est fourni
+    $user->setLastname($data['lastname'] ?? ''); 
+    $user->setFirstname($data['firstname'] ?? ''); 
     $user->setEmail($data['email'] ?? '');
     $birthdate = isset($data['birthdate']) ? \DateTime::createFromFormat('Y-m-d', $data['birthdate']) : null;
 
@@ -37,13 +37,13 @@ if (!$birthdate && isset($data['birthdate'])) {
 
 $user->setBirthdate($birthdate);
 
-    $user->setPhone($data['phone'] ?? null); // Champ optionnel
-    $user->setGender($data['gender'] ?? null); // Optionnel
-    $user->setAddress($data['address'] ?? null); // Optionnel
-    $user->setCity($data['city'] ?? null); // Optionnel
-    $user->setCountry($data['country'] ?? null); // Optionnel
+    $user->setPhone($data['phone'] ?? null); 
+    $user->setGender($data['gender'] ?? null); 
+    $user->setAddress($data['address'] ?? null); 
+    $user->setCity($data['city'] ?? null); 
+    $user->setCountry($data['country'] ?? null); 
     $user->setPassword($passwordHasher->hashPassword($user, $data['password'] ?? ''));
-    $user->setRoles(['ROLE_USER']); // Rôle par défaut
+    $user->setRoles(['ROLE_USER']); 
     $user->setCreatedAt(new \DateTime());
     $user->setUpdatedAt(new \DateTime());
 

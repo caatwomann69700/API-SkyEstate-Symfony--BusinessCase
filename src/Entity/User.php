@@ -316,6 +316,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // Clear sensitive data
+        
     }
 }
