@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Annonce;
+use App\Entity\Message; 
 use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Category;
@@ -22,116 +23,169 @@ class AppFixtures extends Fixture
     }
 
     public function load(ObjectManager $manager): void
-    {
-            
-        $users = [];
+{
+    $users = [];
 
-        // Création de l'utilisateur admin
-        $admin = new User();
-        $admin->setEmail('admin@example.com') 
-            ->setRoles(['ROLE_ADMIN'])
-            ->setPassword($this->passwordHasher->hashPassword($admin, 'adminpassword'))
-            ->setLastname('Admin')
-            ->setFirstname('Administrator')
-            ->setBirthdate(new \DateTime('1980-01-01'))
-            ->setPhone('1234567890')
-            ->setGender('Male')
-            ->setAddress('123 Admin Street')
-            ->setCity('AdminCity')
-            ->setCountry('AdminLand')
-            ->setCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
-        $manager->persist($admin);
-        $users[] = $admin;
+    // ✅ Création de l'utilisateur admin avec une image
+    $admin = new User();
+    $admin->setEmail('admin@example.com')
+        ->setRoles(['ROLE_ADMIN'])
+        ->setPassword($this->passwordHasher->hashPassword($admin, 'adminpassword'))
+        ->setLastname('Admin')
+        ->setFirstname('Administrator')
+        ->setBirthdate(new \DateTime('1980-01-01'))
+        ->setPhone('1234567890')
+        ->setGender('Male')
+        ->setAddress('123 Admin Street')
+        ->setCity('AdminCity')
+        ->setCountry('AdminLand')
+        ->setCreatedAt(new \DateTime())
+        ->setUpdatedAt(new \DateTime());
 
-        // Création des utilisateurs standards
-        $user1 = new User();
-        $user1->setEmail('sarahdebiani@gmail.com')
-            ->setRoles(['ROLE_USER'])
-            ->setPassword($this->passwordHasher->hashPassword($user1, 'userpassword1'))
-            ->setLastname('Debiani')
-            ->setFirstname('Sarah')
-            ->setBirthdate(new \DateTime('1990-02-15'))
-            ->setPhone('1234567891')
-            ->setGender('Female')
-            ->setAddress('1 Rue des Fleurs')
-            ->setCity('CityOne')
-            ->setCountry('CountryOne')
-            ->setCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
-        $manager->persist($user1);
-        $users[] = $user1;
+    $imageAdmin = new Image();
+    $imageAdmin->setName('admin_avatar.jpg');
+    $manager->persist($imageAdmin);
+    $admin->setImage($imageAdmin); // ✅ Associe une image
 
-        $user2 = new User();
-        $user2->setEmail('sofiadebiani@gmail.com')
-            ->setRoles(['ROLE_USER'])
-            ->setPassword($this->passwordHasher->hashPassword($user2, 'userpassword2'))
-            ->setLastname('Debiani')
-            ->setFirstname('Sofia')
-            ->setBirthdate(new \DateTime('1993-05-10'))
-            ->setPhone('1234567892')
-            ->setGender('Female')
-            ->setAddress('2 Rue de la Paix')
-            ->setCity('CityTwo')
-            ->setCountry('CountryTwo')
-            ->setCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
-        $manager->persist($user2);
-        $users[] = $user2;
+    $manager->persist($admin);
+    $users[] = $admin;
 
-        $user3 = new User();
-        $user3->setEmail('soniadebiani@gmail.com')
-            ->setRoles(['ROLE_USER'])
-            ->setPassword($this->passwordHasher->hashPassword($user3, 'userpassword3'))
-            ->setLastname('Debiani')
-            ->setFirstname('Sonia')
-            ->setBirthdate(new \DateTime('1995-07-20'))
-            ->setPhone('1234567893')
-            ->setGender('Female')
-            ->setAddress('3 Rue des Lilas')
-            ->setCity('CityThree')
-            ->setCountry('CountryThree')
-            ->setCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
-        $manager->persist($user3);
-        $users[] = $user3;
+    // ✅ Création des utilisateurs standards avec une image
+    $user1 = new User();
+    $user1->setEmail('sarahdebiani@gmail.com')
+        ->setRoles(['ROLE_USER'])
+        ->setPassword($this->passwordHasher->hashPassword($user1, 'userpassword1'))
+        ->setLastname('Debiani')
+        ->setFirstname('Sarah')
+        ->setBirthdate(new \DateTime('1990-02-15'))
+        ->setPhone('1234567891')
+        ->setGender('Female')
+        ->setAddress('1 Rue des Fleurs')
+        ->setCity('CityOne')
+        ->setCountry('CountryOne')
+        ->setCreatedAt(new \DateTime())
+        ->setUpdatedAt(new \DateTime());
 
-        $user4 = new User();
-        $user4->setEmail('sofianedebiani@gmail.com')
-            ->setRoles(['ROLE_USER'])
-            ->setPassword($this->passwordHasher->hashPassword($user4, 'userpassword4'))
-            ->setLastname('Debiani')
-            ->setFirstname('Sofiane')
-            ->setBirthdate(new \DateTime('1988-01-10'))
-            ->setPhone('1234567894')
-            ->setGender('Male')
-            ->setAddress('4 Rue des Roses')
-            ->setCity('CityFour')
-            ->setCountry('CountryFour')
-            ->setCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
-        $manager->persist($user4);
-        $users[] = $user4;
+    $image1 = new Image();
+    $image1->setName('sarah_avatar.jpg');
+    $manager->persist($image1);
+    $user1->setImage($image1); // ✅ Associe une image
 
-        $user5 = new User();
-        $user5->setEmail('amardebiani@gmail.com')
-            ->setRoles(['ROLE_USER'])
-            ->setPassword($this->passwordHasher->hashPassword($user5, 'userpassword5'))
-            ->setLastname('Debiani')
-            ->setFirstname('Amar')
-            ->setBirthdate(new \DateTime('1985-11-25'))
-            ->setPhone('1234567895')
-            ->setGender('Male')
-            ->setAddress('5 Rue de la Liberté')
-            ->setCity('CityFive')
-            ->setCountry('CountryFive')
-            ->setCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
-        $manager->persist($user5);
-        $users[] = $user5;
+    $manager->persist($user1);
+    $users[] = $user1;
+
+    $user2 = new User();
+    $user2->setEmail('sofiadebiani@gmail.com')
+        ->setRoles(['ROLE_USER'])
+        ->setPassword($this->passwordHasher->hashPassword($user2, 'userpassword2'))
+        ->setLastname('Debiani')
+        ->setFirstname('Sofia')
+        ->setBirthdate(new \DateTime('1993-05-10'))
+        ->setPhone('1234567892')
+        ->setGender('Female')
+        ->setAddress('2 Rue de la Paix')
+        ->setCity('CityTwo')
+        ->setCountry('CountryTwo')
+        ->setCreatedAt(new \DateTime())
+        ->setUpdatedAt(new \DateTime());
+
+    $image2 = new Image();
+    $image2->setName('sofia_avatar.jpg');
+    $manager->persist($image2);
+    $user2->setImage($image2); // ✅ Associe une image
+
+    $manager->persist($user2);
+    $users[] = $user2;
+
+    $user3 = new User();
+    $user3->setEmail('soniadebiani@gmail.com')
+        ->setRoles(['ROLE_USER'])
+        ->setPassword($this->passwordHasher->hashPassword($user3, 'userpassword3'))
+        ->setLastname('Debiani')
+        ->setFirstname('Sonia')
+        ->setBirthdate(new \DateTime('1995-07-20'))
+        ->setPhone('1234567893')
+        ->setGender('Female')
+        ->setAddress('3 Rue des Lilas')
+        ->setCity('CityThree')
+        ->setCountry('CountryThree')
+        ->setCreatedAt(new \DateTime())
+        ->setUpdatedAt(new \DateTime());
+
+    $image3 = new Image();
+    $image3->setName('sonia_avatar.jpg');
+    $manager->persist($image3);
+    $user3->setImage($image3); // ✅ Associe une image
+
+    $manager->persist($user3);
+    $users[] = $user3;
+
+    $user4 = new User();
+    $user4->setEmail('sofianedebiani@gmail.com')
+        ->setRoles(['ROLE_USER'])
+        ->setPassword($this->passwordHasher->hashPassword($user4, 'userpassword4'))
+        ->setLastname('Debiani')
+        ->setFirstname('Sofiane')
+        ->setBirthdate(new \DateTime('1988-01-10'))
+        ->setPhone('1234567894')
+        ->setGender('Male')
+        ->setAddress('4 Rue des Roses')
+        ->setCity('CityFour')
+        ->setCountry('CountryFour')
+        ->setCreatedAt(new \DateTime())
+        ->setUpdatedAt(new \DateTime());
+
+    $image4 = new Image();
+    $image4->setName('sofiane_avatar.jpg');
+    $manager->persist($image4);
+    $user4->setImage($image4); 
+    $manager->persist($user4);
+    $users[] = $user4;
+
+    $user5 = new User();
+    $user5->setEmail('amardebiani@gmail.com')
+        ->setRoles(['ROLE_USER'])
+        ->setPassword($this->passwordHasher->hashPassword($user5, 'userpassword5'))
+        ->setLastname('Debiani')
+        ->setFirstname('Amar')
+        ->setBirthdate(new \DateTime('1985-11-25'))
+        ->setPhone('1234567895')
+        ->setGender('Male')
+        ->setAddress('5 Rue de la Liberté')
+        ->setCity('CityFive')
+        ->setCountry('CountryFive')
+        ->setCreatedAt(new \DateTime())
+        ->setUpdatedAt(new \DateTime());
+
+    $image5 = new Image();
+    $image5->setName('amar_avatar.jpg');
+    $manager->persist($image5);
+    $user5->setImage($image5); 
+
+    $manager->persist($user5);
+    $users[] = $user5;
 
 
-     
+        // Après avoir créé les utilisateurs
+        $sarah = $user1; // Sarah Debiani
+        $sofia = $user2; // Sofia Debiani
+
+        $messagesData = [
+            ['sender' => $sarah, 'receiver' => $sofia, 'content' => 'Salut Sofia ! Comment vas-tu ?'],
+            ['sender' => $sofia, 'receiver' => $sarah, 'content' => 'Coucou Sarah ! Je vais bien, merci. Et toi ?'],
+            ['sender' => $sarah, 'receiver' => $sofia, 'content' => 'Tout va bien, merci ! Tu es dispo ce soir ?'],
+            ['sender' => $sofia, 'receiver' => $sarah, 'content' => 'Oui, pourquoi pas ! On se retrouve vers 18h ?'],
+            ['sender' => $sarah, 'receiver' => $sofia, 'content' => 'Parfait, on se voit tout à l’heure 😊'],
+        ];
+        foreach ($messagesData as $data) {
+            $message = new Message();
+            $message->setContent($data['content']);
+            $message->setSender($data['sender']);
+            $message->setReceiver($data['receiver']);
+            $message->setCreatedAt(new \DateTimeImmutable());
+        
+            $manager->persist($message);
+        }
         // Création des catégories avec leurs images et descriptions
         $categoriesData = [
             'maison' => [

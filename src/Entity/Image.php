@@ -27,6 +27,8 @@ class Image
     #[Groups(['image:read', 'image:write', 'annonces:read', 'category:read', 'amenity:read'])] 
     private ?string $name = null;
 
+    #[ORM\OneToOne(inversedBy: 'image', targetEntity: User::class)]
+    private ?User $user = null;
 
     // Relation avec l'entité Annonce (Une annonce a une seule image principale)
     #[ORM\OneToOne(mappedBy: 'image', targetEntity: Annonce::class)]
@@ -45,7 +47,16 @@ class Image
     {
         return $this->id;
     }
+        public function getUser(): ?User
+    {
+        return $this->user;
+    }
 
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
     // Getter pour le nom de l'image
     public function getName(): ?string
     {
