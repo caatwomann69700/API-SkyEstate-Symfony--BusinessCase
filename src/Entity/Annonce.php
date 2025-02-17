@@ -13,11 +13,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use App\Entity\User; 
-use App\Entity\Image; 
+use App\Entity\Image;
+use Symfony\Component\Serializer\Annotation\MaxDepth; 
 
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
 #[ApiResource(
+    
     normalizationContext: ['groups' => ['annonces:read']],
     denormalizationContext: ['groups' => ['annonces:write']]
 )]
@@ -39,47 +41,47 @@ class Annonce
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['annonces:read'])]
+    #[Groups(['annonces:read', 'user:annonces'])]
     private ?int $id = null;
 
     // Titre de l'annonce
     #[ORM\Column(length: 255)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'annonces:write', 'user:annonces'])]
     private ?string $title = null;
 
     // Description détaillée de l'annonce
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'annonces:write', 'user:annonces'])]
     private ?string $description = null;
 
     // Prix de l'annonce
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'annonces:write', 'user:annonces'])]
     private ?string $price = null;
 
     // Surface en m² de l'espace proposé
     #[ORM\Column(length: 255)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'annonces:write', 'user:annonces'])]
     private ?string $surface = null;
 
     // Adresse précise ou localisation
     #[ORM\Column(length: 255, nullable: false)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'annonces:write', 'user:annonces'])]
     private ?string $location = null;
 
     // Ville de l'annonce
     #[ORM\Column(length: 255)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'annonces:write', 'user:annonces'])]
     private ?string $city = null;
 
     // Code postal de la localisation
     #[ORM\Column(length: 20)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'annonces:write', 'user:annonces'])]
     private ?string $postalCode = null;
 
     // Nombre maximal d'occupants
     #[ORM\Column(length: 255)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'annonces:write', 'user:annonces'])]
     private ?string $maxOccupants = null;
 
     // Date de création (lecture seule)
@@ -125,10 +127,11 @@ class Annonce
 
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'annonces')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['annonces:read', 'annonces:write'])]
+    #[Groups(['annonces:read', 'user:annonces'])]
+    #[MaxDepth(1)] 
     private ?User $user = null;
 
+    
 
     public function __construct()
     {
@@ -152,20 +155,20 @@ class Annonce
     }
 
     // Ajouter un utilisateur à l'annonce
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-        }
-        return $this;
-    }
+    // public function addUser(User $user): self
+    // {
+    //     if (!$this->users->contains($user)) {
+    //         $this->users->add($user);
+    //     }
+    //     return $this;
+    // }
 
     // Supprimer un utilisateur de l'annonce
-    public function removeUser(User $user): self
-    {
-        $this->users->removeElement($user);
-        return $this;
-    }
+    // public function removeUser(User $user): self
+    // {
+    //     $this->users->removeElement($user);
+    //     return $this;
+    // }
 
     // Getters et Setters (inchangés mais vérifiés)
     public function getId(): ?int

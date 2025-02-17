@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -116,9 +117,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read'])]
     private ?\DateTimeInterface $updatedAt = null;
 
-        #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:write'])]
+    #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[Groups(['user:read', 'user:annonces'])]
+    #[MaxDepth(1)] 
     private Collection $annonces;
+
+
+
+
+
+
+
+
+
+
+
+
     
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, orphanRemoval: true)]
     #[Groups(['user:messages'])]
@@ -322,24 +336,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->annonces;
     }
 
-    public function addAnnonce(Annonce $annonce): self
-    {
-        if (!$this->annonces->contains($annonce)) {
-            $this->annonces->add($annonce);
-            $annonce->addUser($this);
-        }
+    // public function addAnnonce(Annonce $annonce): self
+    // {
+    //     if (!$this->annonces->contains($annonce)) {
+    //         $this->annonces->add($annonce);
+    //         $annonce->addUser($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeAnnonce(Annonce $annonce): self
-    {
-        if ($this->annonces->removeElement($annonce)) {
-            $annonce->removeUser($this);
-        }
+    // public function removeAnnonce(Annonce $annonce): self
+    // {
+    //     if ($this->annonces->removeElement($annonce)) {
+    //         $annonce->removeUser($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function eraseCredentials(): void
     {
